@@ -1,0 +1,35 @@
+<nav class="nav-bar">
+  <div class="logo-section">
+    <svg width="35" height="32" viewBox="0 0 64 56" aria-label="IBERO" class="logo-svg">
+      <path d="M 8 8 L 8 32 C 8 44 18 50 28 50 C 38 50 48 44 48 32 L 48 8 L 40 8 L 40 32 C 40 39 35 43 28 43 C 21 43 16 39 16 32 L 16 8 Z" fill="#FFFFFF"></path>
+      <circle cx="46" cy="10" r="6.5" fill="var(--ibero-gold)"></circle>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-ibero">IBERO</span>
+      <span class="brand-separator">|</span>
+      <span class="brand-map">MAP</span>
+    </div>
+  </div>
+  
+  <div class="spacer"></div>
+  
+  <div class="nav-items" *ngIf="navItems.length > 0">
+    <a *ngFor="let item of navItems" 
+       (click)="onNavClick(item.id)"
+       [class.active]="activeItem === item.id"
+       class="nav-link">
+      <i class="material-icons">{{ item.icon }}</i>
+      {{ item.label }}
+    </a>
+  </div>
+  
+  <div class="user-section">
+    <div class="user-info">
+      <div class="user-name">{{ userName }}</div>
+      <div class="user-role">{{ userRole }}</div>
+    </div>
+    <div class="user-avatar" title="Cerrar sesión" (click)="onLogout()">
+      {{ getInitials() }}
+    </div>
+  </div>
+</nav>

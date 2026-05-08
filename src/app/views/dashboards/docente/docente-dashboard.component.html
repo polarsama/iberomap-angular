@@ -1,0 +1,167 @@
+<div class="dashboard-container">
+  <app-nav-bar 
+    [userName]="user?.name || ''" 
+    userRole="Docente" 
+    [activeItem]="activeTab" 
+    [navItems]="navItems" 
+    (logout)="onLogout()"
+    (navClick)="setTab($event)">
+  </app-nav-bar>
+
+  <div class="main-content" *ngIf="currentView === 'programs'">
+    <div class="header-section">
+      <div>
+        <h1>Bienvenido, {{ getUserFirstName() }}</h1>
+        <div class="role-subtitle">
+          <app-role-chip role="docente"></app-role-chip>
+          <span class="program-name">Estás asignado a {{ DOCENTE_PROGRAMS.length }} programas</span>
+        </div>
+      </div>
+    </div>
+    <h2 style="font-size: 18px; font-weight: 700; color: var(--ibero-black); margin-bottom: 16px; font-family: 'Montserrat';">¿En cuál programa deseas trabajar hoy?</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+      <div *ngFor="let p of DOCENTE_PROGRAMS" (click)="goToConditions(p)" style="background: #fff; border-top: 3px solid var(--ibero-gold); border-radius: 8px; padding: 22px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,.06); transition: transform .15s, box-shadow .2s;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+          <div style="width: 44px; height: 44px; border-radius: 8px; background: var(--ibero-black); display: flex; align-items: center; justify-content: center;">
+            <i class="material-icons" style="color: var(--ibero-gold);">folder</i>
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--ibero-black); font-family: 'Montserrat';">{{ p.name }}</div>
+            <div style="font-size: 11px; color: var(--ibero-gray-mid);">Facultad de {{ p.faculty }}</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f5f5f5;">
+          <div style="font-size: 12px; font-weight: 500; color: var(--ibero-gray); width: 200px;">Avance del programa</div>
+          <div style="flex: 1; height: 8px; border-radius: 9999px; background: var(--ibero-border); overflow: hidden;">
+            <div [style.width.%]="p.pct" style="height: 100%; border-radius: 9999px; background: var(--ibero-gold);"></div>
+          </div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--ibero-gray); width: 36px; text-align: right;">{{ p.pct }}%</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+          <span style="font-size: 11px; color: var(--ibero-gray); font-weight: 600;">
+            <i class="material-icons" style="font-size: 14px; vertical-align: middle; color: var(--ibero-gold-mid);">warning</i>
+            {{ p.pending }} pendientes
+          </span>
+          <app-btn [sm]="true" icon="arrow_forward" (onClick)="goToConditions(p)">Trabajar</app-btn>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content" *ngIf="currentView === 'conditions'">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px;">
+      <button (click)="goBack()" style="background: transparent; border: none; color: var(--ibero-gold-mid); font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: 'Montserrat';">
+        <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+        Cambiar programa
+      </button>
+    </div>
+    <!-- Header -->
+    <div class="header-section">
+      <div>
+        <h1>Bienvenido, {{ getUserFirstName() }}</h1>
+        <div class="role-subtitle">
+          <app-role-chip role="docente"></app-role-chip>
+          <span class="program-name">Programa: {{ selectedProgram.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <app-stat-card [value]="MY_CHARS.length" label="Condiciones" sub="Asignadas por el Director"></app-stat-card>
+      <app-stat-card [value]="done" label="Completadas" sub="Evidencias enviadas" color="#43a047"></app-stat-card>
+      <app-stat-card [value]="pending" label="Pendientes" sub="Requieren tu atención" color="#fb8c00"></app-stat-card>
+      <app-stat-card [value]="getAvancePct()" label="Mi avance" sub="del total asignado"></app-stat-card>
+    </div>
+
+    <!-- Pending alert -->
+    <div class="alert-box" *ngIf="pending > 0">
+      <i class="material-icons alert-icon">warning</i>
+      <span class="alert-text">Tienes <strong>{{ pending }} condición{{ pending > 1 ? 'es' : '' }}</strong> pendiente{{ pending > 1 ? 's' : '' }} de diligenciar. La fecha límite para varias es el 20 de junio.</span>
+    </div>
+
+    <!-- Characteristic list -->
+    <app-card [customStyle]="{ padding: 0, overflow: 'hidden' }">
+      <div class="card-header">
+        <app-section-title icon="assignment">Mis Condiciones Asignadas</app-section-title>
+      </div>
+      
+      <div *ngFor="let c of MY_CHARS; let i = index" class="char-row" [class.bg-alt]="i % 2 === 1" [class.no-border]="i === MY_CHARS.length - 1">
+        <div class="char-circle">{{ c.num }}</div>
+        <div class="char-info">
+          <div class="char-name">{{ c.name }}</div>
+          <div class="char-sub">{{ c.factor }} · Fecha límite: {{ c.dueDate }}</div>
+        </div>
+        <app-status-chip [status]="c.status"></app-status-chip>
+        <div style="display: flex; gap: 8px;">
+          <button style="width: 28px; height: 28px; border: none; background: transparent; color: #E53935; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; border-radius: 4px;" title="Eliminar" (click)="deleteChar(c)" onmouseover="this.style.background='rgba(229, 57, 53, 0.1)'" onmouseout="this.style.background='transparent'">
+            <i class="material-icons" style="font-size: 18px;">delete_outline</i>
+          </button>
+          <app-btn 
+            [sm]="true" 
+            [variant]="c.status === 'completado' ? 'light' : 'primary'" 
+            [icon]="c.status === 'completado' ? 'visibility' : 'edit'"
+            (onClick)="goToForm(c)">
+            {{ c.status === 'completado' ? 'Ver' : 'Diligenciar' }}
+          </app-btn>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Help note -->
+    <div class="help-note">
+      <i class="material-icons">info</i>
+      <span>Las condiciones que crees serán visibles y editables por todos los docentes asignados a este programa.</span>
+    </div>
+  </div>
+
+  <div class="main-content" *ngIf="currentView === 'form'">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px;">
+      <button (click)="goBack()" style="background: transparent; border: none; color: var(--ibero-gold-mid); font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: 'Montserrat';">
+        <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+        Volver a Condiciones
+      </button>
+    </div>
+    
+    <app-card>
+      <app-section-title icon="edit_document">Diligenciar Condición</app-section-title>
+      <p style="font-size: 13px; color: var(--ibero-gray); margin-bottom: 24px;">Selecciona los parámetros de evaluación e ingresa los detalles y comentarios correspondientes a tu programa.</p>
+
+      <div class="form-group">
+        <label>Condición Principal *</label>
+        <input #condicionRef type="text" placeholder="Ej: Cumplimiento de resultados de aprendizaje" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);" />
+      </div>
+
+      <div class="form-group">
+        <label>Breve descripción *</label>
+        <textarea placeholder="Describe cómo el programa cumple con la condición..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black); resize: vertical;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Factor *</label>
+        <select #factorRef style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);">
+          <option value="" disabled selected>Seleccione el factor...</option>
+          <option *ngFor="let f of FACTORES" [value]="f">{{ f }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Característica *</label>
+        <select #caracRef style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);">
+          <option value="" disabled selected>Seleccione la característica...</option>
+          <option *ngFor="let c of CARACTERISTICAS" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Comentarios adicionales</label>
+        <textarea placeholder="Añade observaciones o comentarios extras..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black); resize: vertical;"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px;">
+        <app-btn variant="flat" (onClick)="goBack()">Cancelar</app-btn>
+        <app-btn icon="save" variant="primary" (onClick)="saveForm(condicionRef.value, factorRef.value, caracRef.value)">Guardar Condición</app-btn>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+<div class="landing-container">
+  <!-- Navbar -->
+  <nav class="landing-nav">
+    <div class="landing-nav-logo-group">
+      <svg width="37.4" height="34" viewBox="0 0 64 56" aria-label="IBERO" class="logo-svg">
+        <path d="M 8 8 L 8 32 C 8 44 18 50 28 50 C 38 50 48 44 48 32 L 48 8 L 40 8 L 40 32 C 40 39 35 43 28 43 C 21 43 16 39 16 32 L 16 8 Z" fill="#FFFFFF"></path>
+        <circle cx="46" cy="10" r="6.5" fill="var(--ibero-gold)"></circle>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-ibero">IBERO</span>
+        <span class="brand-separator">|</span>
+        <span class="brand-map">MAP</span>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" (click)="onLogin()">
+      <i class="material-icons">login</i>
+      Iniciar sesión
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero-section">
+    <!-- Decorative gold accent -->
+    <div class="orb-top-right"></div>
+    <div class="orb-bottom-left"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="material-icons">verified</i>
+        Decreto 1330 · Acuerdo 01 de 2025
+      </div>
+      <h1 class="hero-title">
+        Automatización del<br />
+        <span class="text-gold">Proceso MAP</span>
+      </h1>
+      <p class="hero-desc">
+        Diligencia el informe de autoevaluación de tu programa en menos tiempo y con menos errores. Once programas, un solo sistema.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" (click)="onLogin()">
+          <i class="material-icons">arrow_forward</i>
+          Iniciar sesión
+        </button>
+        <button class="btn btn-outline-light btn-lg">
+          Ver documentación
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value">11</div>
+          <div class="stat-label">Programas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Factores</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">41</div>
+          <div class="stat-label">Características</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">80%</div>
+          <div class="stat-label">Reutilizable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What does the system do? -->
+  <div class="features-section">
+    <div class="section-header">
+      <div class="section-badge">Capacidades</div>
+      <h2 class="section-title">¿Qué hace el sistema?</h2>
+      <p class="section-subtitle">Tres capacidades fundamentales para modernizar el proceso MAP</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i class="material-icons">assignment</i>
+        </div>
+        <h3 class="feature-title">Formularios MAP estructurados</h3>
+        <p class="feature-desc">Diligencia los 12 factores y 41 características del proceso de autoevaluación desde una interfaz clara por rol.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i class="material-icons">group</i>
+        </div>
+        <h3 class="feature-title">Colaboración entre docentes</h3>
+        <p class="feature-desc">Cada docente aporta condiciones que comparte con todos los docentes del mismo programa y reutiliza el 80% del contenido común.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <i class="material-icons">file_download</i>
+        </div>
+        <h3 class="feature-title">Generación automática</h3>
+        <p class="feature-desc">Genera el Cuadro Maestro en Excel formato oficial IP-FT-27 V04 exigido por el Ministerio de Educación Nacional.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roles -->
+  <div class="roles-section">
+    <div class="roles-container">
+      <div class="section-header">
+        <div class="section-badge">Actores</div>
+        <h2 class="section-title">Roles del sistema</h2>
+        <p class="section-subtitle">Cada actor accede a un dashboard personalizado según su rol</p>
+      </div>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="role-icon-wrapper">
+            <i class="material-icons">admin_panel_settings</i>
+          </div>
+          <h3 class="role-title">Líder de Aseguramiento</h3>
+          <p class="role-desc">Administra toda la plataforma y supervisa el avance global de todos los programas.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-icon-wrapper">
+            <i class="material-icons">school</i>
+          </div>
+          <h3 class="role-title">Decano</h3>
+          <p class="role-desc">Monitorea los indicadores de su facultad y revisa el avance de cada programa.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-icon-wrapper">
+            <i class="material-icons">manage_accounts</i>
+          </div>
+          <h3 class="role-title">Director de Programa</h3>
+          <p class="role-desc">Gestiona el diligenciamiento de su programa específico con los 12 factores.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-icon-wrapper">
+            <i class="material-icons">person</i>
+          </div>
+          <h3 class="role-title">Docente</h3>
+          <p class="role-desc">Carga las evidencias y descriptores correspondientes a sus características.</p>
+        </div>
+      </div>
+      <div class="roles-action">
+        <button class="btn btn-primary btn-lg" (click)="onLogin()">
+          <i class="material-icons">arrow_forward</i>
+          Iniciar sesión en el sistema
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <svg width="30.8" height="28" viewBox="0 0 64 56" aria-label="IBERO" class="logo-svg">
+          <path d="M 8 8 L 8 32 C 8 44 18 50 28 50 C 38 50 48 44 48 32 L 48 8 L 40 8 L 40 32 C 40 39 35 43 28 43 C 21 43 16 39 16 32 L 16 8 Z" fill="#FFFFFF"></path>
+          <circle cx="46" cy="10" r="6.5" fill="var(--ibero-gold)"></circle>
+        </svg>
+        <div>
+          <div class="footer-title">Corporación Universitaria Iberoamericana</div>
+          <div class="footer-subtitle">Bogotá, Colombia · automatizacion.com</div>
+        </div>
+      </div>
+      <span class="footer-copy">
+        IBERO — AutoEval MAP © 2026 · Powered by Software Engineers
+      </span>
+    </div>
+  </footer>
+</div>

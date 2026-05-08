@@ -1,0 +1,33 @@
+/* Global Styles for IBERO MAP */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:root {
+  --ibero-gold: #D0AB4B;
+  --ibero-gold-mid: #D19E40;
+  --ibero-gold-light: #E8C042;
+  --ibero-gold-soft: #FAF3DD;
+  --ibero-black: #222222;
+  --ibero-gray: #494646;
+  --ibero-gray-mid: #6B6868;
+  --ibero-white: #FFFFFF;
+  --ibero-bg: #F5F5F5;
+  --ibero-border: #E0E0E0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--ibero-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

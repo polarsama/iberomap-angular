@@ -1,0 +1,65 @@
+<div class="login-container">
+  <!-- Decorative gold orbs -->
+  <div class="orb-top-right"></div>
+  <div class="orb-bottom-left"></div>
+
+  <div class="login-content">
+    <!-- Logo block -->
+    <div class="logo-block">
+      <div class="logo-circle">
+        <svg width="46.2" height="42" viewBox="0 0 64 56" aria-label="IBERO" class="logo-svg">
+          <path d="M 8 8 L 8 32 C 8 44 18 50 28 50 C 38 50 48 44 48 32 L 48 8 L 40 8 L 40 32 C 40 39 35 43 28 43 C 21 43 16 39 16 32 L 16 8 Z" fill="#494646"></path>
+          <circle cx="46" cy="10" r="6.5" fill="var(--ibero-gold)"></circle>
+        </svg>
+      </div>
+      <h1 class="logo-title">IBERO · MAP</h1>
+      <p class="logo-subtitle">Sistema de Autoevaluación de Programas</p>
+    </div>
+
+    <!-- Card -->
+    <div class="login-card">
+      <h2 class="card-title">Iniciar sesión</h2>
+
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label class="form-label">Correo institucional</label>
+          <input type="email" [(ngModel)]="email" name="email" class="form-input" placeholder="usuario@ibero.edu.co" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" [(ngModel)]="password" name="password" class="form-input" placeholder="••••••••" required>
+        </div>
+
+        <div class="error-message" *ngIf="error">
+          <i class="material-icons">error</i>
+          <span>{{ error }}</span>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          <ng-container *ngIf="!loading">
+            <i class="material-icons">login</i> Ingresar al sistema
+          </ng-container>
+          <ng-container *ngIf="loading">
+            <i class="material-icons spin-icon">refresh</i> Verificando...
+          </ng-container>
+        </button>
+      </form>
+
+      <!-- Quick login hints -->
+      <div class="quick-login">
+        <div class="quick-login-title">Acceso rápido (demo)</div>
+        <div class="quick-login-actions">
+          <button type="button" class="btn-quick" (click)="fillHint('lider@ibero.edu.co')">Líder</button>
+          <button type="button" class="btn-quick" (click)="fillHint('decano@ibero.edu.co')">Decano</button>
+          <button type="button" class="btn-quick" (click)="fillHint('director@ibero.edu.co')">Director</button>
+          <button type="button" class="btn-quick" (click)="fillHint('docente@ibero.edu.co')">Docente</button>
+        </div>
+        <p class="quick-login-hint">Contraseña para todos: <strong>1234</strong></p>
+      </div>
+    </div>
+
+    <p class="login-footer">
+      Corporación Universitaria Iberoamericana · automatizacion.com
+    </p>
+  </div>
+</div>

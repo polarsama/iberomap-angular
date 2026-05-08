@@ -1,0 +1,125 @@
+.nav-bar {
+  background: var(--ibero-black);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo-svg {
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-ibero {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.brand-separator {
+  color: rgba(255,255,255,.35);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.brand-map {
+  color: var(--ibero-gold);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: rgba(255,255,255,.85);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: background .15s;
+}
+
+.nav-link.active {
+  color: var(--ibero-gold);
+  background: rgba(208,171,75,0.12);
+  border-bottom: 2px solid var(--ibero-gold);
+}
+
+.nav-link .material-icons {
+  font-size: 18px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(255,255,255,.15);
+  margin-left: 12px;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-role {
+  color: rgba(255,255,255,.55);
+  font-size: 10px;
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ibero-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ibero-black);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
