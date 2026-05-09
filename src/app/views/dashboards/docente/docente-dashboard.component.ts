@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../../services/auth.service';
 import { NavBarComponent } from '../../../components/shared/nav-bar/nav-bar.component';
@@ -15,6 +16,7 @@ import { BtnComponent } from '../../../components/shared/btn/btn.component';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     NavBarComponent,
     RoleChipComponent,
     StatCardComponent,
@@ -32,6 +34,15 @@ export class DocenteDashboardComponent implements OnInit {
   selectedProgram: any = null;
   activeTab = 'mis-chars';
   currentView: 'programs' | 'conditions' | 'form' = 'programs';
+  
+  formData = {
+    condicion: '',
+    descripcion: '',
+    factor: '',
+    carac: '',
+    comentarios: '',
+    indicadores: [] as any[]
+  };
 
   FACTORES = [
     'Factor 1: Proyecto educativo del programa e identidad institucional.',
@@ -112,12 +123,14 @@ export class DocenteDashboardComponent implements OnInit {
     { id: 2, name: 'Ingeniería Industrial',      faculty: 'Ingeniería',           pct: 45, pending: 2 },
   ];
 
-  MY_CHARS = [
+  MY_CHARS: any[] = [
     { num: '1.2', factor: 'Factor 1 — Misión y PEP', name: 'Proyecto Educativo del Programa (PEP)', status: 'en progreso', dueDate: '2025-06-15', shared: 1 },
     { num: '3.1', factor: 'Factor 3 — Profesores', name: 'Selección, vinculación y permanencia de profesores', status: 'pendiente', dueDate: '2025-06-20' },
     { num: '3.3', factor: 'Factor 3 — Profesores', name: 'Número, dedicación y nivel de formación de profesores', status: 'pendiente', dueDate: '2025-06-20' },
-    { num: '4.4', factor: 'Factor 4 — Procesos Académicos', name: 'Metodologías de enseñanza y aprendizaje', status: 'completado', dueDate: '2025-05-30', shared: 2 },
-    { num: '6.1', factor: 'Factor 6 — Investigación', name: 'Grupos y líneas de investigación del programa', status: 'completado', dueDate: '2025-05-28' },
+    { num: '4.4', factor: 'Factor 4 — Procesos Académicos', name: 'Metodologías de enseñanza y aprendizaje', status: 'completado', dueDate: '2025-05-30', shared: 2, 
+      condicion: 'Metodologías', descripcion: 'Se implementan diversas metodologías de enseñanza y aprendizaje.', factorFull: 'Factor 4: Comunidad de egresados.', caracFull: 'C18: Coherencia de las estrategias pedagógicas con el proyecto educativo del programa académico y las características de la comunidad de estudiantes.', comentarios: 'Sin comentarios adicionales.' },
+    { num: '6.1', factor: 'Factor 6 — Investigación', name: 'Grupos y líneas de investigación del programa', status: 'completado', dueDate: '2025-05-28',
+      condicion: 'Grupos de investigación', descripcion: 'El programa cuenta con grupos de investigación categorizados.', factorFull: 'Factor 6: Permanencia y graduación.', caracFull: 'C30: Capacidades y procesos para la consolidación de la investigación, el desarrollo tecnológico, la innovación, la creación e investigación-creación artística y cultural en el programa académico.', comentarios: '' },
   ];
 
   grades = ['Se cumple plenamente', 'Se cumple en alto grado', 'Se cumple aceptablemente', 'Se cumple insatisfactoriamente', 'No se cumple'];
@@ -158,7 +171,38 @@ export class DocenteDashboardComponent implements OnInit {
 
   goToForm(c: any = null) {
     this.selectedChar = c;
+    if (c) {
+      this.formData = {
+        condicion: c.condicion || '',
+        descripcion: c.descripcion || '',
+        factor: c.factorFull || '',
+        carac: c.caracFull || '',
+        comentarios: c.comentarios || '',
+        indicadores: c.indicadores ? JSON.parse(JSON.stringify(c.indicadores)) : [
+          { nombre: 'Ej: Profesores de planta', valor: '24', temporalidad: 'Semestral' }
+        ]
+      };
+    } else {
+      this.formData = {
+        condicion: '',
+        descripcion: '',
+        factor: '',
+        carac: '',
+        comentarios: '',
+        indicadores: [
+          { nombre: 'Ej: Profesores de planta', valor: '24', temporalidad: 'Semestral' }
+        ]
+      };
+    }
     this.currentView = 'form';
+  }
+
+  addIndicador() {
+    this.formData.indicadores.push({ nombre: '', valor: '', temporalidad: '' });
+  }
+
+  removeIndicador(index: number) {
+    this.formData.indicadores.splice(index, 1);
   }
 
   goBack() {
@@ -179,33 +223,49 @@ export class DocenteDashboardComponent implements OnInit {
     }
   }
 
-  saveForm(condicion: string, factor: string, carac: string) {
-    if (!condicion || !factor || !carac) {
+  saveForm() {
+    if (!this.formData.condicion || !this.formData.factor || !this.formData.carac || !this.formData.descripcion) {
       alert('Por favor, complete los campos obligatorios (*).');
       return;
     }
 
-    const factorNum = factor.split(':')[0];
-    const caracParts = carac.split(': ');
+    const factorNum = this.formData.factor.split(':')[0];
+    const caracParts = this.formData.carac.split(': ');
     const caracNum = caracParts[0].replace('C', '') + '.1';
-    const caracName = caracParts[1] || carac;
+    const caracName = caracParts[1] || this.formData.carac;
 
-    this.MY_CHARS.unshift({
-      num: caracNum,
-      factor: factorNum + ' — ' + condicion.substring(0, 20) + '...',
-      name: caracName,
-      status: 'completado',
-      dueDate: new Date().toISOString().split('T')[0],
-      shared: 0
-    });
+    if (this.selectedChar) {
+      this.selectedChar.num = caracNum;
+      this.selectedChar.factor = factorNum + ' — ' + this.formData.condicion.substring(0, 20) + (this.formData.condicion.length > 20 ? '...' : '');
+      this.selectedChar.name = caracName;
+      this.selectedChar.condicion = this.formData.condicion;
+      this.selectedChar.descripcion = this.formData.descripcion;
+      this.selectedChar.factorFull = this.formData.factor;
+      this.selectedChar.caracFull = this.formData.carac;
+      this.selectedChar.comentarios = this.formData.comentarios;
+      this.selectedChar.indicadores = JSON.parse(JSON.stringify(this.formData.indicadores));
+      this.selectedChar.status = 'completado';
+    } else {
+      this.MY_CHARS.unshift({
+        num: caracNum,
+        factor: factorNum + ' — ' + this.formData.condicion.substring(0, 20) + (this.formData.condicion.length > 20 ? '...' : ''),
+        name: caracName,
+        status: 'completado',
+        dueDate: new Date().toISOString().split('T')[0],
+        shared: 0,
+        condicion: this.formData.condicion,
+        descripcion: this.formData.descripcion,
+        factorFull: this.formData.factor,
+        caracFull: this.formData.carac,
+        comentarios: this.formData.comentarios,
+        indicadores: JSON.parse(JSON.stringify(this.formData.indicadores))
+      });
+    }
 
-    this.done++;
+    this.done = this.MY_CHARS.filter(c => c.status === 'completado').length;
     this.pending = this.MY_CHARS.filter(c => c.status !== 'completado').length;
 
     this.goBack();
   }
 
-  getAvancePct(): string {
-    return Math.round((this.done / this.MY_CHARS.length) * 100) + '%';
-  }
 }

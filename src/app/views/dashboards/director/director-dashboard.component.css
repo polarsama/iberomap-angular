@@ -193,3 +193,48 @@
   font-weight: 600;
   white-space: nowrap;
 }
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px 20px;
+  }
+  
+  .header-section {
+    flex-direction: column;
+  }
+  
+  .header-section h1 {
+    font-size: 20px;
+  }
+  
+  .factor-body {
+    padding: 0 16px 14px 16px;
+  }
+  
+  .char-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .char-name {
+    width: 100%;
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .factor-num {
+    width: 32px;
+    height: 32px;
+    font-size: 10px;
+  }
+  
+  .factor-header {
+    padding: 14px 16px;
+  }
+  
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

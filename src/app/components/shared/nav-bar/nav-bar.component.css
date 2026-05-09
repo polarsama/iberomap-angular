@@ -123,3 +123,56 @@
   font-weight: 700;
   cursor: pointer;
 }
+
+@media (max-width: 992px) {
+  .nav-bar {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-separator, .brand-map {
+    display: none;
+  }
+  
+  .nav-items {
+    overflow-x: auto;
+    padding-bottom: 2px;
+    margin-right: -10px;
+    padding-right: 10px;
+  }
+  
+  /* Hide scrollbar for a cleaner look on mobile but keep it scrollable */
+  .nav-items::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .nav-items {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .user-info {
+    display: none;
+  }
+  
+  .user-section {
+    padding-left: 10px;
+    margin-left: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-ibero {
+    font-size: 16px;
+  }
+  
+  .nav-link {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .nav-link .material-icons {
+    font-size: 16px;
+  }
+}
