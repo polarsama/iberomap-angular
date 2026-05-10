@@ -8,10 +8,10 @@
     (navClick)="setTab($event)">
   </app-nav-bar>
 
-  <div class="main-content">
+  <div class="main-content container">
     <!-- Header -->
     <div class="header-section">
-      <div>
+      <div class="header-text">
         <h1>Bienvenida, {{ getUserFirstName() }}</h1>
         <div class="role-subtitle">
           <app-role-chip role="director"></app-role-chip>
@@ -59,10 +59,10 @@
         <div class="factor-body" *ngIf="openFactor === factor.num">
           <div *ngFor="let c of factor.chars" class="char-row">
             <span class="char-num">{{ c.num }}</span>
-            <div style="flex: 1;">
+            <div class="char-main-info">
               <div class="char-name">{{ c.name }}</div>
-              <div *ngIf="c.autor" style="font-size: 10.5px; color: var(--ibero-gray-mid); margin-top: 2px;">
-                <i class="material-icons" style="font-size: 11px; vertical-align: middle;">person</i> Creado por {{ c.autor }}{{ c.collabs ? ' · +' + c.collabs + ' colaborador(es)' : '' }}
+              <div *ngIf="c.autor" class="char-author-info">
+                <i class="material-icons">person</i> Creado por {{ c.autor }}{{ c.collabs ? ' · +' + c.collabs + ' colaborador(es)' : '' }}
               </div>
             </div>
             <app-status-chip [status]="c.status"></app-status-chip>
@@ -79,32 +79,37 @@
 
   <!-- Reuse Modal -->
   <div class="modal-overlay" *ngIf="showReuse">
-    <div class="modal-content" style="width: 680px; padding: 24px;">
-      <div style="padding-bottom: 18px; border-bottom: 1px solid var(--ibero-border); display: flex; align-items: center;">
-        <h3 style="font-size: 16px; font-weight: 700; color: var(--ibero-black); font-family: 'Montserrat'; margin: 0;">Sugerencias de reutilización · Facultad de Ingeniería</h3>
-        <i class="material-icons" (click)="showReuse = false" style="margin-left: auto; cursor: pointer; color: var(--ibero-gray-mid);">close</i>
+    <div class="modal-content reuse-modal">
+      <div class="modal-header-box">
+        <h3 class="modal-title">Sugerencias de reutilización · Facultad de Ingeniería</h3>
+        <button class="modal-close-btn" (click)="showReuse = false">
+          <i class="material-icons">close</i>
+        </button>
       </div>
       
-      <div style="padding-top: 24px;">
-        <p style="font-size: 12.5px; color: var(--ibero-gray); margin-bottom: 18px;">
+      <div class="modal-body">
+        <p class="modal-intro">
           El sistema detectó condiciones similares ya completadas en otros programas de tu facultad.
           Selecciona las que quieras reutilizar como base — siempre podrás ajustarlas después.
         </p>
         
-        <label *ngFor="let s of reuseSuggestions" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--ibero-border); border-radius: 6px; margin-bottom: 8px; cursor: pointer; background: #fff;">
-          <input type="checkbox" checked style="accent-color: var(--ibero-gold);" />
-          <div style="flex: 1;">
-            <div style="font-size: 13px; font-weight: 700; color: var(--ibero-black);">{{ s.car }}</div>
-            <div style="font-size: 11px; color: var(--ibero-gray-mid); margin-top: 2px;">De <strong>{{ s.from }}</strong> · {{ s.autor }} · {{ s.date }}</div>
-          </div>
-          <span style="display: inline-flex; padding: 2px 8px; border-radius: 9999px; background: var(--ibero-gold-soft); color: var(--ibero-black); font-size: 10px; font-weight: 700;">92% similar</span>
-        </label>
+        <div class="reuse-list">
+          <label *ngFor="let s of reuseSuggestions" class="reuse-item">
+            <input type="checkbox" checked class="reuse-checkbox" />
+            <div class="reuse-item-info">
+              <div class="reuse-item-title">{{ s.car }}</div>
+              <div class="reuse-item-meta">De <strong>{{ s.from }}</strong> · {{ s.autor }} · {{ s.date }}</div>
+            </div>
+            <span class="reuse-percentage">92% similar</span>
+          </label>
+        </div>
       </div>
 
-      <div class="modal-actions" style="padding: 14px 24px; border-top: 1px solid var(--ibero-border); background: #FAFAFA; margin: 24px -24px -24px -24px; display: flex; justify-content: flex-end; gap: 10px;">
+      <div class="modal-actions-box">
         <app-btn variant="flat" (onClick)="showReuse = false">Cerrar</app-btn>
         <app-btn icon="check" (onClick)="showReuse = false">Importar seleccionadas (3)</app-btn>
       </div>
     </div>
   </div>
 </div>
+

@@ -72,4 +72,13 @@ export class AuthService {
       error: () => {}
     });
   }
+
+  updateUser(userData: Partial<User>): void {
+    const current = this.currentUserSubject.value;
+    if (current) {
+      const updated = { ...current, ...userData };
+      localStorage.setItem('iberomap_user', JSON.stringify(updated));
+      this.currentUserSubject.next(updated);
+    }
+  }
 }

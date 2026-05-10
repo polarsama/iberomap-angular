@@ -115,21 +115,20 @@ export class DocenteDashboardComponent implements OnInit {
 
   navItems = [
     { id: 'mis-chars', label: 'Mis Programas', icon: 'folder' },
-    { id: 'enviadas',  label: 'Enviadas',           icon: 'check_circle' },
   ];
 
   DOCENTE_PROGRAMS = [
-    { id: 1, name: 'Ingeniería de Sistemas',     faculty: 'Ingeniería',           pct: 78, pending: 3 },
-    { id: 2, name: 'Ingeniería Industrial',      faculty: 'Ingeniería',           pct: 45, pending: 2 },
+    { id: 1, name: 'Ingeniería de Sistemas',     faculty: 'Ingeniería',           pct: 78, pending: 3, collaborators: 12 },
+    { id: 2, name: 'Ingeniería Industrial',      faculty: 'Ingeniería',           pct: 45, pending: 2, collaborators: 8 },
   ];
 
   MY_CHARS: any[] = [
-    { num: '1.2', factor: 'Factor 1 — Misión y PEP', name: 'Proyecto Educativo del Programa (PEP)', status: 'en progreso', dueDate: '2025-06-15', shared: 1 },
-    { num: '3.1', factor: 'Factor 3 — Profesores', name: 'Selección, vinculación y permanencia de profesores', status: 'pendiente', dueDate: '2025-06-20' },
-    { num: '3.3', factor: 'Factor 3 — Profesores', name: 'Número, dedicación y nivel de formación de profesores', status: 'pendiente', dueDate: '2025-06-20' },
-    { num: '4.4', factor: 'Factor 4 — Procesos Académicos', name: 'Metodologías de enseñanza y aprendizaje', status: 'completado', dueDate: '2025-05-30', shared: 2, 
+    { num: '1.2', factor: 'Factor 1 — Misión y PEP', name: 'Proyecto Educativo del Programa (PEP)', status: 'en progreso', dueDate: '2025-06-15', shared: 3 },
+    { num: '3.1', factor: 'Factor 3 — Profesores', name: 'Selección, vinculación y permanencia de profesores', status: 'pendiente', dueDate: '2025-06-20', shared: 1 },
+    { num: '3.3', factor: 'Factor 3 — Profesores', name: 'Número, dedicación y nivel de formación de profesores', status: 'pendiente', dueDate: '2025-06-20', shared: 1 },
+    { num: '4.4', factor: 'Factor 4 — Procesos Académicos', name: 'Metodologías de enseñanza y aprendizaje', status: 'completado', dueDate: '2025-05-30', shared: 5, 
       condicion: 'Metodologías', descripcion: 'Se implementan diversas metodologías de enseñanza y aprendizaje.', factorFull: 'Factor 4: Comunidad de egresados.', caracFull: 'C18: Coherencia de las estrategias pedagógicas con el proyecto educativo del programa académico y las características de la comunidad de estudiantes.', comentarios: 'Sin comentarios adicionales.' },
-    { num: '6.1', factor: 'Factor 6 — Investigación', name: 'Grupos y líneas de investigación del programa', status: 'completado', dueDate: '2025-05-28',
+    { num: '6.1', factor: 'Factor 6 — Investigación', name: 'Grupos y líneas de investigación del programa', status: 'completado', dueDate: '2025-05-28', shared: 2,
       condicion: 'Grupos de investigación', descripcion: 'El programa cuenta con grupos de investigación categorizados.', factorFull: 'Factor 6: Permanencia y graduación.', caracFull: 'C30: Capacidades y procesos para la consolidación de la investigación, el desarrollo tecnológico, la innovación, la creación e investigación-creación artística y cultural en el programa académico.', comentarios: '' },
   ];
 

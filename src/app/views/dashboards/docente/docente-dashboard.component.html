@@ -8,9 +8,9 @@
     (navClick)="setTab($event)">
   </app-nav-bar>
 
-  <div class="main-content" *ngIf="currentView === 'programs'">
+  <div class="main-content container" *ngIf="currentView === 'programs'">
     <div class="header-section">
-      <div>
+      <div class="header-text">
         <h1>Bienvenido, {{ getUserFirstName() }}</h1>
         <div class="role-subtitle">
           <app-role-chip role="docente"></app-role-chip>
@@ -18,22 +18,27 @@
         </div>
       </div>
     </div>
-    <h2 style="font-size: 18px; font-weight: 700; color: var(--ibero-black); margin-bottom: 16px; font-family: 'Montserrat';">¿En cuál programa deseas trabajar hoy?</h2>
+    <h2 class="view-title">¿En cuál programa deseas trabajar hoy?</h2>
+    
     <div class="programs-grid">
-      <div *ngFor="let p of DOCENTE_PROGRAMS" (click)="goToConditions(p)" style="background: #fff; border-top: 3px solid var(--ibero-gold); border-radius: 8px; padding: 22px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,.06); transition: transform .15s, box-shadow .2s;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
-          <div style="width: 44px; height: 44px; border-radius: 8px; background: var(--ibero-black); display: flex; align-items: center; justify-content: center;">
-            <i class="material-icons" style="color: var(--ibero-gold);">folder</i>
+      <div *ngFor="let p of DOCENTE_PROGRAMS" class="program-card" (click)="goToConditions(p)">
+        <div class="program-card-header">
+          <div class="program-icon-box">
+            <i class="material-icons">folder</i>
           </div>
-          <div>
-            <div style="font-size: 14px; font-weight: 700; color: var(--ibero-black); font-family: 'Montserrat';">{{ p.name }}</div>
-            <div style="font-size: 11px; color: var(--ibero-gray-mid);">Facultad de {{ p.faculty }}</div>
+          <div class="program-info">
+            <div class="program-title">{{ p.name }}</div>
+            <div class="program-faculty">Facultad de {{ p.faculty }}</div>
           </div>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-          <span style="font-size: 11px; color: var(--ibero-gray); font-weight: 600;">
-            <i class="material-icons" style="font-size: 14px; vertical-align: middle; color: var(--ibero-gold-mid);">warning</i>
+        <div class="program-card-footer">
+          <span class="pending-badge">
+            <i class="material-icons">warning</i>
             {{ p.pending }} pendientes
+          </span>
+          <span class="collab-badge">
+            <i class="material-icons">group</i>
+            {{ p.collaborators }} docentes
           </span>
           <app-btn [sm]="true" icon="arrow_forward" (onClick)="goToConditions(p)">Trabajar</app-btn>
         </div>
@@ -41,20 +46,25 @@
     </div>
   </div>
 
-  <div class="main-content" *ngIf="currentView === 'conditions'">
-    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px;">
-      <button (click)="goBack()" style="background: transparent; border: none; color: var(--ibero-gold-mid); font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: 'Montserrat';">
-        <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+  <div class="main-content container" *ngIf="currentView === 'conditions'">
+    <div class="navigation-header">
+      <button class="back-btn" (click)="goBack()">
+        <i class="material-icons">arrow_back</i>
         Cambiar programa
       </button>
     </div>
+    
     <!-- Header -->
     <div class="header-section">
-      <div>
+      <div class="header-text">
         <h1>Bienvenido, {{ getUserFirstName() }}</h1>
         <div class="role-subtitle">
           <app-role-chip role="docente"></app-role-chip>
           <span class="program-name">Programa: {{ selectedProgram.name }}</span>
+          <div class="collaborators-tag" *ngIf="selectedProgram.collaborators">
+            <i class="material-icons">group</i>
+            <span>{{ selectedProgram.collaborators }} Colaboradores</span>
+          </div>
         </div>
       </div>
     </div>
@@ -74,12 +84,12 @@
 
     <!-- Characteristic list -->
     <app-card [customStyle]="{ padding: 0, overflow: 'hidden' }">
-      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="card-header flex-header">
         <app-section-title icon="assignment">Mis Condiciones Asignadas</app-section-title>
         <app-btn [sm]="true" icon="add" (onClick)="goToForm()">Añadir Condición</app-btn>
       </div>
       
-      <div *ngIf="MY_CHARS.length === 0" style="padding: 32px; text-align: center; color: var(--ibero-gray); font-size: 14px;">
+      <div *ngIf="MY_CHARS.length === 0" class="empty-state">
         No tienes condiciones asignadas en este programa. Haz clic en "Añadir Condición" para empezar.
       </div>
       
@@ -87,12 +97,17 @@
         <div class="char-circle">{{ c.num }}</div>
         <div class="char-info">
           <div class="char-name">{{ c.name }}</div>
-          <div class="char-sub">{{ c.factor }} · Fecha límite: {{ c.dueDate }}</div>
+          <div class="char-sub">
+            {{ c.factor }} · Fecha límite: {{ c.dueDate }}
+            <span class="shared-indicator" *ngIf="c.shared > 1">
+              · <i class="material-icons">people</i> {{ c.shared }} colaborando
+            </span>
+          </div>
         </div>
         <app-status-chip [status]="c.status"></app-status-chip>
-        <div style="display: flex; gap: 8px;">
-          <button style="width: 28px; height: 28px; border: none; background: transparent; color: #E53935; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; border-radius: 4px;" title="Eliminar" (click)="deleteChar(c)" onmouseover="this.style.background='rgba(229, 57, 53, 0.1)'" onmouseout="this.style.background='transparent'">
-            <i class="material-icons" style="font-size: 18px;">delete_outline</i>
+        <div class="char-actions">
+          <button class="delete-btn" title="Eliminar" (click)="deleteChar(c)">
+            <i class="material-icons">delete_outline</i>
           </button>
           <app-btn 
             [sm]="true" 
@@ -112,76 +127,78 @@
     </div>
   </div>
 
-  <div class="main-content" *ngIf="currentView === 'form'">
-    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px;">
-      <button (click)="goBack()" style="background: transparent; border: none; color: var(--ibero-gold-mid); font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: 'Montserrat';">
-        <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+  <div class="main-content container" *ngIf="currentView === 'form'">
+    <div class="navigation-header">
+      <button class="back-btn" (click)="goBack()">
+        <i class="material-icons">arrow_back</i>
         Volver a Condiciones
       </button>
     </div>
     
     <app-card>
       <app-section-title icon="edit_document">Diligenciar Condición</app-section-title>
-      <p style="font-size: 13px; color: var(--ibero-gray); margin-bottom: 24px;">Selecciona los parámetros de evaluación e ingresa los detalles y comentarios correspondientes a tu programa.</p>
+      <p class="form-intro">Selecciona los parámetros de evaluación e ingresa los detalles y comentarios correspondientes a tu programa.</p>
 
-      <div class="form-group">
-        <label>Condición Principal *</label>
-        <input [(ngModel)]="formData.condicion" type="text" placeholder="Ej: Cumplimiento de resultados de aprendizaje" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);" />
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Condición Principal *</label>
+          <input [(ngModel)]="formData.condicion" type="text" placeholder="Ej: Cumplimiento de resultados de aprendizaje" class="form-input" />
+        </div>
+
+        <div class="form-group full-width">
+          <label>Breve descripción *</label>
+          <textarea [(ngModel)]="formData.descripcion" placeholder="Describe cómo el programa cumple con la condición..." class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Factor *</label>
+          <select [(ngModel)]="formData.factor" class="form-select">
+            <option value="" disabled selected>Seleccione el factor...</option>
+            <option *ngFor="let f of FACTORES" [value]="f">{{ f }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Característica *</label>
+          <select [(ngModel)]="formData.carac" class="form-select">
+            <option value="" disabled selected>Seleccione la característica...</option>
+            <option *ngFor="let c of CARACTERISTICAS" [value]="c">{{ c }}</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label>Comentarios adicionales</label>
+          <textarea [(ngModel)]="formData.comentarios" placeholder="Añade observaciones o comentarios extras..." class="form-textarea small"></textarea>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Breve descripción *</label>
-        <textarea [(ngModel)]="formData.descripcion" placeholder="Describe cómo el programa cumple con la condición..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black); resize: vertical;"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Factor *</label>
-        <select [(ngModel)]="formData.factor" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);">
-          <option value="" disabled selected>Seleccione el factor...</option>
-          <option *ngFor="let f of FACTORES" [value]="f">{{ f }}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Característica *</label>
-        <select [(ngModel)]="formData.carac" style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);">
-          <option value="" disabled selected>Seleccione la característica...</option>
-          <option *ngFor="let c of CARACTERISTICAS" [value]="c">{{ c }}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Comentarios adicionales</label>
-        <textarea [(ngModel)]="formData.comentarios" placeholder="Añade observaciones o comentarios extras..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black); resize: vertical;"></textarea>
-      </div>
-
-      <div class="divider" style="margin-top: 32px;"></div>
+      <div class="divider"></div>
 
       <!-- Section Indicadores -->
       <app-section-title icon="trending_up">Indicadores</app-section-title>
       
-      <div style="background: #FAFAFA; border: 1px solid var(--ibero-border); border-radius: 6px; overflow-x: auto; margin-bottom: 16px;">
-        <div style="min-width: 500px;">
-          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 40px; padding: 12px 16px; border-bottom: 1px solid var(--ibero-border); background: #fff;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--ibero-gray); text-transform: uppercase;">Nombre</div>
-            <div style="font-size: 11px; font-weight: 700; color: var(--ibero-gray); text-transform: uppercase;">Valor</div>
-            <div style="font-size: 11px; font-weight: 700; color: var(--ibero-gray); text-transform: uppercase;">Temporalidad</div>
-            <div></div>
+      <div class="indicators-table-wrapper">
+        <div class="indicators-table">
+          <div class="indicators-header">
+            <div class="col-label">Nombre</div>
+            <div class="col-label">Valor</div>
+            <div class="col-label">Temporalidad</div>
+            <div class="col-action"></div>
           </div>
           
-          <div *ngFor="let ind of formData.indicadores; let i = index" style="display: grid; grid-template-columns: 2fr 1fr 1fr 40px; padding: 12px 16px; align-items: center; border-bottom: 1px solid var(--ibero-border); gap: 12px;">
-            <input [(ngModel)]="ind.nombre" type="text" placeholder="Ej: Profesores de planta" style="width: 100%; height: 32px; padding: 0 8px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);" />
-            <input [(ngModel)]="ind.valor" type="text" placeholder="24" style="width: 100%; height: 32px; padding: 0 8px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);" />
-            <input [(ngModel)]="ind.temporalidad" type="text" placeholder="Semestral" style="width: 100%; height: 32px; padding: 0 8px; border: 1px solid var(--ibero-border); border-radius: 4px; font-family: 'Montserrat'; font-size: 13px; color: var(--ibero-black);" />
-            <button (click)="removeIndicador(i)" style="border: none; background: transparent; cursor: pointer; color: #E53935; display: flex; align-items: center; justify-content: center;">
-              <i class="material-icons" style="font-size: 18px;">close</i>
+          <div *ngFor="let ind of formData.indicadores; let i = index" class="indicators-row">
+            <input [(ngModel)]="ind.nombre" type="text" placeholder="Ej: Profesores de planta" class="table-input" />
+            <input [(ngModel)]="ind.valor" type="text" placeholder="24" class="table-input" />
+            <input [(ngModel)]="ind.temporalidad" type="text" placeholder="Semestral" class="table-input" />
+            <button (click)="removeIndicador(i)" class="remove-ind-btn">
+              <i class="material-icons">close</i>
             </button>
           </div>
         </div>
       </div>
       
-      <button (click)="addIndicador()" style="background: transparent; border: none; color: var(--ibero-gold-mid); font-size: 13px; font-weight: 600; font-family: 'Montserrat'; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 24px;">
-        <i class="material-icons" style="font-size: 18px;">add</i>
+      <button (click)="addIndicador()" class="add-ind-btn">
+        <i class="material-icons">add</i>
         Agregar indicador
       </button>
 
@@ -190,16 +207,17 @@
       <!-- Section Evidencias adjuntas -->
       <app-section-title icon="attachment">Evidencias adjuntas</app-section-title>
       
-      <div class="drop-zone" style="margin-bottom: 24px;">
+      <div class="drop-zone">
         <i class="material-icons">cloud_upload</i>
         <div class="drop-text">Arrastra archivos aquí o haz clic para seleccionar</div>
         <div class="drop-sub">PDF, DOCX, XLSX, PNG — máx. 10 MB</div>
       </div>
 
-      <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px;">
+      <div class="form-actions">
         <app-btn variant="flat" (onClick)="goBack()">Cancelar</app-btn>
         <app-btn icon="save" variant="primary" (onClick)="saveForm()">Guardar Condición</app-btn>
       </div>
     </app-card>
   </div>
 </div>
+

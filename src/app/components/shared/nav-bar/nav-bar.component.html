@@ -1,4 +1,8 @@
 <nav class="nav-bar">
+  <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle navigation">
+    <i class="material-icons">{{ isMenuOpen ? 'close' : 'menu' }}</i>
+  </button>
+
   <div class="logo-section">
     <svg width="35" height="32" viewBox="0 0 64 56" aria-label="IBERO" class="logo-svg">
       <path d="M 8 8 L 8 32 C 8 44 18 50 28 50 C 38 50 48 44 48 32 L 48 8 L 40 8 L 40 32 C 40 39 35 43 28 43 C 21 43 16 39 16 32 L 16 8 Z" fill="#FFFFFF"></path>
@@ -13,7 +17,7 @@
   
   <div class="spacer"></div>
   
-  <div class="nav-items" *ngIf="navItems.length > 0">
+  <div class="nav-items desktop-only" *ngIf="navItems.length > 0">
     <a *ngFor="let item of navItems" 
        (click)="onNavClick(item.id)"
        [class.active]="activeItem === item.id"
@@ -23,13 +27,100 @@
     </a>
   </div>
   
-  <div class="user-section">
+  <div class="user-section desktop-only" (click)="toggleMenu()">
     <div class="user-info">
       <div class="user-name">{{ userName }}</div>
       <div class="user-role">{{ userRole }}</div>
     </div>
-    <div class="user-avatar" title="Cerrar sesión" (click)="onLogout()">
+    <div class="user-avatar">
       {{ getInitials() }}
     </div>
   </div>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <div class="mobile-user-info">
+      <div class="user-avatar large">{{ getInitials() }}</div>
+      <div class="user-details">
+        <div class="user-name">{{ userName }}</div>
+        <div class="user-role">{{ userRole }}</div>
+      </div>
+    </div>
+    
+    <div class="mobile-nav-items">
+      <a *ngFor="let item of navItems" 
+         (click)="onNavClick(item.id)"
+         [class.active]="activeItem === item.id"
+         class="mobile-nav-link">
+        <i class="material-icons">{{ item.icon }}</i>
+        {{ item.label }}
+      </a>
+      
+      <a (click)="openSettings()" class="mobile-nav-link">
+        <i class="material-icons">settings</i>
+        Configuración
+      </a>
+
+      <a (click)="onLogout()" class="mobile-nav-link logout">
+        <i class="material-icons">logout</i>
+        Cerrar sesión
+      </a>
+    </div>
+  </div>
+  <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" *ngIf="showSettings">
+    <div class="modal-content settings-modal">
+      <div class="modal-header">
+        <h3>Configuración de Perfil</h3>
+        <button class="close-btn" (click)="showSettings = false">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="avatar-edit-section">
+          <div class="avatar-preview">
+            <img *ngIf="settingsData.avatar" [src]="settingsData.avatar" alt="Avatar" />
+            <div *ngIf="!settingsData.avatar" class="avatar-placeholder">{{ getInitials() }}</div>
+          </div>
+          <div class="avatar-actions">
+            <label class="upload-btn">
+              <i class="material-icons">photo_camera</i>
+              Subir foto
+              <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombre Completo</label>
+            <div class="input-wrapper">
+              <i class="material-icons">person</i>
+              <input type="text" [(ngModel)]="settingsData.name" placeholder="Tu nombre..." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <div class="input-wrapper">
+              <i class="material-icons">email</i>
+              <input type="email" [(ngModel)]="settingsData.email" placeholder="tu@correo.com" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-flat" (click)="showSettings = false">Cancelar</button>
+        <button class="btn-primary" (click)="saveSettings()">
+          <i class="material-icons">save</i>
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
 </nav>
+
