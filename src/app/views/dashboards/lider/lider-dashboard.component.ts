@@ -54,6 +54,29 @@ export class LiderDashboardComponent implements OnInit {
   notStarted = 0;
   avgPct = 0;
 
+  users = [
+    { id: 1, name: 'Carlos Ruiz', email: 'carlos.ruiz@ibero.edu.co', role: 'docente', status: 'activo' },
+    { id: 2, name: 'Ana Patiño', email: 'ana.patino@ibero.edu.co', role: 'docente', status: 'activo' },
+    { id: 3, name: 'Laura Gómez', email: 'laura.gomez@ibero.edu.co', role: 'director', status: 'activo' },
+    { id: 4, name: 'Pablo Mora', email: 'pablo.mora@ibero.edu.co', role: 'director', status: 'activo' },
+    { id: 5, name: 'Felipe Quintero', email: 'felipe.q@ibero.edu.co', role: 'decano', status: 'activo' },
+  ];
+
+  faculties = [
+    { name: 'Ingeniería', programs: 12, pct: 65 },
+    { name: 'Ciencias Humanas', programs: 8, pct: 42 },
+    { name: 'Ciencias Empresariales', programs: 15, pct: 58 },
+    { name: 'Ciencias de la Salud', programs: 10, pct: 81 },
+    { name: 'Ciencias Jurídicas', programs: 5, pct: 30 },
+  ];
+
+  newProgram = {
+    name: '',
+    snies: '',
+    faculty: '',
+    type: 'Renovación'
+  };
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -87,5 +110,34 @@ export class LiderDashboardComponent implements OnInit {
 
   getProgressColor(pct: number): string {
     return pct >= 80 ? '#43a047' : pct >= 40 ? '#fb8c00' : '#e53935';
+  }
+
+  saveNewProgram() {
+    if (!this.newProgram.name || !this.newProgram.snies || !this.newProgram.faculty) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    this.programs.unshift({
+      id: Date.now(),
+      name: this.newProgram.name,
+      faculty: this.newProgram.faculty,
+      type: this.newProgram.type,
+      status: 'no iniciado',
+      pct: 0,
+      snies: this.newProgram.snies,
+      docentes: 0
+    });
+
+    this.calculateStats();
+    this.showModal = false;
+    this.newProgram = { name: '', snies: '', faculty: '', type: 'Renovación' };
+  }
+
+  deleteProgram(id: number) {
+    if (confirm('¿Estás seguro de eliminar este programa?')) {
+      this.programs = this.programs.filter(p => p.id !== id);
+      this.calculateStats();
+    }
   }
 }
