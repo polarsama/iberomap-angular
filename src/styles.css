@@ -62,3 +62,86 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Modal System (Shared) */
+.modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important;
+  width: 95% !important;
+  max-width: 700px !important;
+  max-height: 90vh !important;
+  padding: 36px !important;
+  overflow-y: auto !important;
+  position: relative !important;
+  animation: modalAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top: 8px solid var(--ibero-gold) !important;
+}
+
+@keyframes modalAppear {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.confirm-modal {
+  max-width: 450px !important;
+  text-align: center !important;
+  padding: 40px !important;
+}
+
+.confirm-icon {
+  width: 64px;
+  height: 64px;
+  background: #FFEAEA;
+  color: #E53935;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.confirm-icon .material-icons {
+  font-size: 36px;
+}
+
+.confirm-modal h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ibero-black);
+  margin-bottom: 12px;
+}
+
+.confirm-modal p {
+  font-size: 14px;
+  color: var(--ibero-gray-mid);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ibero-border);
+}
+
+.modal-footer.no-border {
+  border-top: none !important;
+}
+

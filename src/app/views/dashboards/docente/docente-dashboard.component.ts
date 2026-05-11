@@ -138,6 +138,8 @@ export class DocenteDashboardComponent implements OnInit {
   pending = 0;
   done = 0;
 
+  confirmDeleteData: any = null; // Para el modal de confirmación
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -215,11 +217,19 @@ export class DocenteDashboardComponent implements OnInit {
   }
 
   deleteChar(char: any) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta condición?')) {
-      this.MY_CHARS = this.MY_CHARS.filter(c => c !== char);
+    this.confirmDeleteData = { type: 'char', char };
+  }
+
+  executeDelete() {
+    if (!this.confirmDeleteData) return;
+
+    if (this.confirmDeleteData.type === 'char') {
+      this.MY_CHARS = this.MY_CHARS.filter(c => c !== this.confirmDeleteData.char);
       this.done = this.MY_CHARS.filter(c => c.status === 'completado').length;
       this.pending = this.MY_CHARS.filter(c => c.status !== 'completado').length;
     }
+
+    this.confirmDeleteData = null;
   }
 
   saveForm() {

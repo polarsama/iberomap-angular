@@ -219,5 +219,25 @@
       </div>
     </app-card>
   </div>
+
+  <!-- Modal Confirm Delete (Custom Pop-up) -->
+  <div class="modal-overlay" *ngIf="confirmDeleteData">
+    <div class="modal-content confirm-modal">
+      <div class="confirm-icon">
+        <i class="material-icons">warning_amber</i>
+      </div>
+      <h3>¿Confirmar eliminación?</h3>
+      
+      <p *ngIf="confirmDeleteData.type === 'char'">
+        ¿Estás seguro de que deseas eliminar la condición <strong>{{ confirmDeleteData.char.name }}</strong>? 
+        Esta acción eliminará toda la información y evidencias cargadas.
+      </p>
+
+      <div class="modal-footer no-border" style="margin-top: 24px; padding-top: 16px;">
+        <app-btn variant="flat" (onClick)="confirmDeleteData = null">Cancelar</app-btn>
+        <app-btn variant="primary" color="#E53935" icon="delete" (onClick)="executeDelete()">Confirmar Eliminación</app-btn>
+      </div>
+    </div>
+  </div>
 </div>
 
