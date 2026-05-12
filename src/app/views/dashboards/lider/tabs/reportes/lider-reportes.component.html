@@ -1,0 +1,17 @@
+<div class="reportes-grid">
+  <app-card *ngFor="let f of faculties" class="faculty-card">
+    <div class="faculty-header">
+      <h3>{{ f.name }}</h3>
+      <span class="program-count">{{ f.programs }} programas</span>
+    </div>
+    <div class="faculty-stats">
+      <div class="progress-circle" [style.--pct]="f.pct">
+        <span class="pct-val">{{ f.pct }}%</span>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Avance General</div>
+        <div class="stat-sub">Basado en evidencias subidas</div>
+      </div>
+    </div>
+  </app-card>
+</div>

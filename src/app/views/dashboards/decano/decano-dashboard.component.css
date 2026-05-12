@@ -150,11 +150,6 @@ td {
   color: var(--ibero-black);
 }
 
-.col-director {
-  font-size: 12px;
-  color: var(--ibero-gray);
-}
-
 .type-badge {
   display: inline-flex;
   padding: 3px 10px;

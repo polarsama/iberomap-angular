@@ -28,7 +28,7 @@ export class RoleChipComponent {
     return {
       lider:    { bg: 'var(--ibero-black)', color: 'var(--ibero-white)', label: 'Líder de Aseguramiento' },
       decano:   { bg: 'var(--ibero-gray)', color: 'var(--ibero-white)', label: 'Decano' },
-      director: { bg: 'var(--ibero-gold)', color: 'var(--ibero-black)', label: 'Director de Programa' },
+      admin:    { bg: 'var(--ibero-gold)', color: 'var(--ibero-black)', label: 'Administrador' },
       docente:  { bg: 'var(--ibero-gray-mid)', color: 'var(--ibero-white)', label: 'Docente' },
     };
   }

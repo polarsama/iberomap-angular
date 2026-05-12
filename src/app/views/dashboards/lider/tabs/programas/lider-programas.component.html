@@ -1,0 +1,235 @@
+<!-- Programs table -->
+<app-card>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <app-section-title icon="list">Programas Académicos</app-section-title>
+    <app-btn icon="add" (onClick)="openNewProgramModal()">Nuevo Programa</app-btn>
+  </div>
+  
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr class="header-main">
+          <th>Programa</th>
+          <th>Facultad</th>
+          <th>Tipo Informe</th>
+          <th>Estado</th>
+          <th>Avance</th>
+          <th>Docentes</th>
+          <th>Acciones</th>
+        </tr>
+        <tr class="header-filters">
+          <th>
+            <input type="text" [(ngModel)]="filters.name" placeholder="Filtrar..." class="filter-input" />
+          </th>
+          <th>
+            <select [(ngModel)]="filters.faculty" class="filter-select">
+              <option value="">Todas</option>
+              <option *ngFor="let f of facultiesList" [value]="f">{{ f }}</option>
+            </select>
+          </th>
+          <th>
+            <select [(ngModel)]="filters.type" class="filter-select">
+              <option value="">Todos</option>
+              <option *ngFor="let t of typesList" [value]="t">{{ t }}</option>
+            </select>
+          </th>
+          <th>
+            <select [(ngModel)]="filters.status" class="filter-select">
+              <option value="">Todos</option>
+              <option *ngFor="let s of statusList" [value]="s">{{ s }}</option>
+            </select>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredPrograms; let i = index" [class.bg-alt]="i % 2 === 1">
+          <td class="col-name">
+            {{ p.name }}
+            <div style="font-size: 10px; color: var(--ibero-gray-mid); font-weight: 400; margin-top: 2px;">SNIES: {{ p.snies }}</div>
+          </td>
+          <td class="col-faculty">{{ p.faculty }}</td>
+          <td><span class="type-badge">{{ p.type }}</span></td>
+          <td><app-status-chip [status]="p.status"></app-status-chip></td>
+          <td class="col-progress">
+            <div class="progress-wrapper">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="getProgramProgress(p)" [style.background]="getProgressColor(getProgramProgress(p))"></div>
+              </div>
+              <span class="progress-text">{{ getProgramProgress(p) }}%</span>
+            </div>
+          </td>
+          <td style="font-size: 12px; color: var(--ibero-gray);">
+            <span style="display: inline-flex; align-items: center; gap: 4px;">
+              <i class="material-icons" style="font-size: 14px; color: var(--ibero-gold-mid);">group</i>
+              {{ p.docentes }}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="action-btn" title="Ver" (click)="selectedProgramDetail = p"><i class="material-icons">visibility</i></button>
+              <button class="action-btn" title="Editar" (click)="editProgram(p)"><i class="material-icons">edit</i></button>
+              <button class="action-btn" title="Asignar docente" (click)="showAssign = p"><i class="material-icons">person_add</i></button>
+              <button class="action-btn delete" title="Eliminar" (click)="deleteProgram(p.id)"><i class="material-icons">delete_outline</i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-card>
+
+<!-- Modal Nuevo/Editar Programa -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ newProgram.id ? 'Editar' : 'Nuevo' }} Programa Académico</h2>
+      <i class="material-icons" (click)="showModal = false">close</i>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre del Programa</label>
+        <input type="text" [(ngModel)]="newProgram.name" placeholder="Ej: Ingeniería Ambiental" class="form-input" />
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Código SNIES</label>
+          <input type="text" [(ngModel)]="newProgram.snies" placeholder="Ej: 12345" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Tipo de Informe</label>
+          <select [(ngModel)]="newProgram.type" class="form-select">
+            <option value="Renovación">Renovación de Registro</option>
+            <option value="Autoevaluación">Autoevaluación</option>
+            <option value="Acreditación">Acreditación</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Facultad</label>
+        <select [(ngModel)]="newProgram.faculty" class="form-select">
+          <option value="">Selecciona una facultad...</option>
+          <option *ngFor="let f of facultiesList" [value]="f">{{ f }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <app-btn variant="flat" (onClick)="showModal = false">Cancelar</app-btn>
+      <app-btn icon="save" (onClick)="saveNewProgram()">Guardar Programa</app-btn>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Program Detail (Omitido por brevedad, pero igual que en el original) -->
+<div class="modal-overlay" *ngIf="selectedProgramDetail">
+    <!-- ... Contenido del detalle ... -->
+    <div class="modal-content" style="max-width: 650px;">
+        <div class="modal-header">
+          <h2>Resumen del Programa</h2>
+          <i class="material-icons" (click)="selectedProgramDetail = null">close</i>
+        </div>
+        <div class="modal-body">
+          <div class="program-detail-header">
+            <div class="detail-icon"><i class="material-icons">school</i></div>
+            <div class="detail-main">
+              <h3>{{ selectedProgramDetail.name }}</h3>
+              <p>Facultad de {{ selectedProgramDetail.faculty }} · SNIES: {{ selectedProgramDetail.snies }}</p>
+            </div>
+            <app-status-chip [status]="selectedProgramDetail.status"></app-status-chip>
+          </div>
+  
+          <div class="detail-stats-grid">
+            <div class="d-stat-card">
+              <div class="d-stat-val">{{ getProgramProgress(selectedProgramDetail) }}%</div>
+              <div class="d-stat-label">Avance Total</div>
+            </div>
+            <div class="d-stat-card">
+              <div class="d-stat-val">{{ selectedProgramDetail.conditionsCompleted }}</div>
+              <div class="d-stat-label">Condiciones Listas</div>
+            </div>
+            <div class="d-stat-card">
+              <div class="d-stat-val">{{ selectedProgramDetail.conditionsTotal - selectedProgramDetail.conditionsCompleted }}</div>
+              <div class="d-stat-label">Pendientes</div>
+            </div>
+            <div class="d-stat-card">
+              <div class="d-stat-val">{{ selectedProgramDetail.docentes }}</div>
+              <div class="d-stat-label">Colaboradores</div>
+            </div>
+          </div>
+  
+          <div class="detail-section">
+            <h4>Próximos Hitos</h4>
+            <div class="timeline">
+              <div class="timeline-item done">
+                <i class="material-icons">check_circle</i>
+                <div class="timeline-text">Apertura de autoevaluación (15 de Abril)</div>
+              </div>
+              <div class="timeline-item active">
+                <i class="material-icons">radio_button_checked</i>
+                <div class="timeline-text">Carga de evidencias Factor 1-4 (En curso)</div>
+              </div>
+              <div class="timeline-item">
+                <i class="material-icons">radio_button_unchecked</i>
+                <div class="timeline-text">Consolidación de informe maestro (30 de Junio)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-btn variant="flat" (onClick)="selectedProgramDetail = null">Cerrar</app-btn>
+          <app-btn icon="edit" variant="secondary" (onClick)="editProgram(selectedProgramDetail); selectedProgramDetail = null">Editar Datos</app-btn>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Asignar Docente -->
+<div class="modal-overlay" *ngIf="showAssign">
+  <div class="modal-content" style="max-width: 450px;">
+    <div class="modal-header">
+      <h2>Asignar Docente</h2>
+      <i class="material-icons" (click)="showAssign = null">close</i>
+    </div>
+    
+    <div class="modal-body">
+      <p style="font-size: 13px; color: var(--ibero-gray-mid); margin-bottom: 20px;">
+        Selecciona un docente para que colabore en el programa <strong>{{ showAssign.name }}</strong>.
+      </p>
+
+      <div class="form-group">
+        <label>Docente Disponible</label>
+        <select [(ngModel)]="selectedDocenteId" class="form-select">
+          <option [ngValue]="null" disabled selected>Selecciona un docente...</option>
+          <option *ngFor="let d of docentesList" [value]="d.id">{{ d.name }} ({{ d.email }})</option>
+        </select>
+      </div>
+
+      <div class="assigned-list" style="margin-top: 25px;" *ngIf="showAssign.collaborators?.length">
+        <h4 style="font-size: 12px; text-transform: uppercase; color: var(--ibero-gray-mid); margin-bottom: 10px;">Docentes Asignados</h4>
+        <div *ngFor="let c of showAssign.collaborators" style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #eee;">
+            <div style="width: 28px; height: 28px; background: var(--ibero-black); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;">{{ c.initials }}</div>
+            <div style="flex: 1; font-size: 13px;">{{ c.name }}</div>
+            <i class="material-icons" style="font-size: 18px; color: #e53935; cursor: pointer;">remove_circle_outline</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <app-btn variant="flat" (onClick)="showAssign = null">Cancelar</app-btn>
+      <app-btn icon="person_add" [disabled]="!selectedDocenteId" (onClick)="assignDocente()">Asignar</app-btn>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal 
+  *ngIf="confirmDeleteData"
+  (confirm)="executeDelete()"
+  (cancel)="confirmDeleteData = null">
+  <p *ngIf="confirmDeleteData.type === 'program'">
+    Estás a punto de eliminar este programa académico. 
+    Esta acción no se puede deshacer y se perderán todos los datos asociados.
+  </p>
+</app-confirm-modal>

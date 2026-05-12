@@ -37,9 +37,9 @@ export class DecanoDashboardComponent implements OnInit {
   ];
 
   programs = [
-    { name: 'Ingeniería de Sistemas',    type: 'Renovación',     status: 'en progreso', pct: 78, director: 'Laura Gómez' },
-    { name: 'Ingeniería Industrial',     type: 'Autoevaluación', status: 'en progreso', pct: 45, director: 'Pablo Mora' },
-    { name: 'Ingeniería Electrónica',    type: 'Renovación',     status: 'no iniciado', pct: 8,  director: 'Ana Ríos' },
+    { name: 'Ingeniería de Sistemas',    type: 'Renovación',     status: 'en progreso', pct: 78 },
+    { name: 'Ingeniería Industrial',     type: 'Autoevaluación', status: 'en progreso', pct: 45 },
+    { name: 'Ingeniería Electrónica',    type: 'Renovación',     status: 'no iniciado', pct: 8  },
   ];
 
   completedChars = 0;

@@ -18,9 +18,9 @@ export class LoginComponent {
   loading = false;
 
   roleHints = [
+    { label: 'Administrador', email: 'admin@ibero.edu.co' },
     { label: 'Líder de Aseg.', email: 'lider@ibero.edu.co' },
     { label: 'Decano',         email: 'decano@ibero.edu.co' },
-    { label: 'Director',       email: 'director@ibero.edu.co' },
     { label: 'Docente',        email: 'docente@ibero.edu.co' },
   ];
 
@@ -52,10 +52,10 @@ export class LoginComponent {
   // Temporary mock logic from original prototype, only used if API fails during migration
   private tryMockLogin(): boolean {
     const USERS = [
-      { email: 'lider@ibero.edu.co',    password: '1234', role: 'lider',    name: 'Mónica Torres' },
-      { email: 'decano@ibero.edu.co',   password: '1234', role: 'decano',   name: 'Jorge Hernández' },
-      { email: 'director@ibero.edu.co', password: '1234', role: 'director', name: 'Laura Gómez' },
-      { email: 'docente@ibero.edu.co',  password: '1234', role: 'docente',  name: 'Carlos Ruiz' },
+      { email: 'admin@ibero.edu.co',    password: '1234', role: 'admin',     name: 'Admin Sistema' },
+      { email: 'lider@ibero.edu.co',    password: '1234', role: 'lider',     name: 'Mónica Torres' },
+      { email: 'decano@ibero.edu.co',   password: '1234', role: 'decano',    name: 'Jorge Hernández' },
+      { email: 'docente@ibero.edu.co',  password: '1234', role: 'docente',   name: 'Carlos Ruiz' },
     ];
     
     const user = USERS.find(u => u.email === this.email && u.password === this.password);

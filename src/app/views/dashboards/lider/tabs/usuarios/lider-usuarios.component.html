@@ -1,0 +1,95 @@
+<app-card>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <app-section-title icon="group">Gestión de Usuarios</app-section-title>
+    <app-btn icon="person_add" [sm]="true" (onClick)="openInviteUserModal()">Invitar Usuario</app-btn>
+  </div>
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Correo</th>
+          <th>Rol MAP</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+        <tr class="header-filters">
+          <th>
+            <input type="text" [(ngModel)]="userFilters.name" placeholder="Filtrar..." class="filter-input" />
+          </th>
+          <th></th>
+          <th>
+            <select [(ngModel)]="userFilters.role" class="filter-select">
+              <option value="">Todos</option>
+              <option *ngFor="let r of rolesList" [value]="r">{{ r }}</option>
+            </select>
+          </th>
+          <th>
+            <select [(ngModel)]="userFilters.status" class="filter-select">
+              <option value="">Todos</option>
+              <option *ngFor="let s of userStatusList" [value]="s">{{ s }}</option>
+            </select>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of filteredUsers; let i = index" [class.bg-alt]="i % 2 === 1">
+          <td style="font-weight: 600;">{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td><app-role-chip [role]="u.role"></app-role-chip></td>
+          <td><span class="status-dot" [class.active]="u.status === 'activo'"></span> {{ u.status }}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="action-btn" title="Editar" (click)="editUser(u)"><i class="material-icons">edit</i></button>
+              <button class="action-btn" [title]="u.status === 'activo' ? 'Desactivar' : 'Activar'" (click)="toggleUserStatus(u)">
+                <i class="material-icons">{{ u.status === 'activo' ? 'block' : 'check_circle_outline' }}</i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-card>
+
+<!-- Modal Gestión de Usuario -->
+<div class="modal-overlay" *ngIf="showUserModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ newUser.id ? 'Editar' : 'Invitar' }} Usuario</h2>
+      <i class="material-icons" (click)="showUserModal = false">close</i>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="newUser.name" placeholder="Ej: Juan Pérez" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label>Correo Institucional</label>
+        <input type="email" [(ngModel)]="newUser.email" placeholder="ejemplo@ibero.edu.co" class="form-input" />
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Rol en el Sistema</label>
+          <select [(ngModel)]="newUser.role" class="form-select">
+            <option *ngFor="let r of rolesList" [value]="r">{{ r }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado Inicial</label>
+          <select [(ngModel)]="newUser.status" class="form-select">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <app-btn variant="flat" (onClick)="showUserModal = false">Cancelar</app-btn>
+      <app-btn icon="person_add" (onClick)="saveUser()">{{ newUser.id ? 'Actualizar' : 'Invitar' }} Usuario</app-btn>
+    </div>
+  </div>
+</div>

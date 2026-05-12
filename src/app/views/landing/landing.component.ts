@@ -19,12 +19,12 @@ export class LandingComponent {
   roles = [
     { icon: 'admin_panel_settings', key: 'lider',    title: 'Líder de Aseguramiento', desc: 'Administra toda la plataforma y supervisa el avance global de todos los programas.' },
     { icon: 'school',               key: 'decano',   title: 'Decano',                 desc: 'Monitorea los indicadores de su facultad y revisa el avance de cada programa.' },
-    { icon: 'manage_accounts',      key: 'director', title: 'Director de Programa',   desc: 'Gestiona el diligenciamiento de su programa específico con los 12 factores.' },
-    { icon: 'person',               key: 'docente',  title: 'Docente',                desc: 'Carga las evidencias y descriptores correspondientes a sus características.' },
+    { icon: 'settings',               key: 'admin',    title: 'Administrador',          desc: 'Gestiona usuarios, roles y la configuración técnica global de la plataforma.' },
+    { icon: 'person',                 key: 'docente',  title: 'Docente',                desc: 'Carga las evidencias y descriptores correspondientes a sus características.' },
   ];
 
   roleColors: any = {
-    lider: '#1a237e', decano: '#006064', director: '#004d40', docente: '#37474f',
+    lider: '#1a237e', decano: '#006064', admin: '#D0AB4B', docente: '#37474f',
   };
 
   stats = [

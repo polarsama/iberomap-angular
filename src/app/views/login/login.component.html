@@ -49,10 +49,9 @@
       <div class="quick-login">
         <div class="quick-login-title">Acceso rápido (demo)</div>
         <div class="quick-login-actions">
-          <button type="button" class="btn-quick" (click)="fillHint('lider@ibero.edu.co')">Líder</button>
-          <button type="button" class="btn-quick" (click)="fillHint('decano@ibero.edu.co')">Decano</button>
-          <button type="button" class="btn-quick" (click)="fillHint('director@ibero.edu.co')">Director</button>
-          <button type="button" class="btn-quick" (click)="fillHint('docente@ibero.edu.co')">Docente</button>
+          <button type="button" class="btn-quick" *ngFor="let hint of roleHints" (click)="fillHint(hint.email)">
+            {{ hint.label }}
+          </button>
         </div>
         <p class="quick-login-hint">Contraseña para todos: <strong>1234</strong></p>
       </div>

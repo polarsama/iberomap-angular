@@ -60,7 +60,6 @@
             <tr>
               <th>Programa</th>
               <th>Tipo Informe</th>
-              <th>Director</th>
               <th>Estado</th>
               <th>Avance</th>
             </tr>
@@ -69,7 +68,6 @@
             <tr *ngFor="let p of programs; let i = index" [class.bg-alt]="i % 2 === 1">
               <td class="col-name">{{ p.name }}</td>
               <td><span class="type-badge">{{ p.type }}</span></td>
-              <td class="col-director">{{ p.director }}</td>
               <td><app-status-chip [status]="p.status"></app-status-chip></td>
               <td class="col-progress">
                 <div class="progress-wrapper">
@@ -85,7 +83,7 @@
       </div>
       <div class="info-alert">
         <i class="material-icons">info</i>
-        <span>Vista de solo lectura. Para editar, contacte al Director del Programa correspondiente.</span>
+        <span>Vista de solo lectura para seguimiento institucional.</span>
       </div>
     </app-card>
   </div>

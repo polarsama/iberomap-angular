@@ -1,0 +1,47 @@
+<!-- Stats -->
+<div class="stats-row">
+  <app-stat-card [value]="programs.length" label="Programas totales" sub="Bajo supervisión"></app-stat-card>
+  <app-stat-card [value]="stats.inProgress" label="En proceso MAP" sub="Diligenciamiento activo"></app-stat-card>
+  <app-stat-card [value]="stats.avgPct + '%'" label="Avance Institucional" sub="Consolidado de programas"></app-stat-card>
+  <app-stat-card [value]="stats.notStarted" label="Sin iniciar" sub="Crítico para 2025" color="#e53935"></app-stat-card>
+</div>
+
+<div class="overview-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+  <!-- Summary of programs -->
+  <app-card>
+    <app-section-title icon="insights">Estado de Programas</app-section-title>
+    <div class="summary-list" style="margin-top: 15px;">
+      <div *ngFor="let p of programs.slice(0, 5)" class="summary-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--ibero-border);">
+        <div>
+          <div style="font-weight: 700; font-size: 14px; color: var(--ibero-black);">{{ p.name }}</div>
+          <div style="font-size: 11px; color: var(--ibero-gray-mid);">Facultad de {{ p.faculty }}</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 800; color: var(--ibero-gold-mid); font-size: 14px;">{{ getProgramProgress(p) }}%</div>
+          <app-status-chip [status]="p.status"></app-status-chip>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 15px; text-align: center;">
+      <a href="/dashboard/lider/programas" style="color: var(--ibero-gold-mid); font-weight: 700; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+        Ver todos los programas <i class="material-icons" style="font-size: 16px;">arrow_forward</i>
+      </a>
+    </div>
+  </app-card>
+
+  <!-- Faculty distribution -->
+  <app-card>
+    <app-section-title icon="pie_chart">Distribución por Facultad</app-section-title>
+    <div class="faculty-mini-list" style="margin-top: 20px;">
+      <div *ngFor="let f of faculties" style="margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 6px;">
+          <span>{{ f.name }}</span>
+          <span>{{ f.pct }}%</span>
+        </div>
+        <div style="height: 6px; background: var(--ibero-border); border-radius: 3px; overflow: hidden;">
+          <div [style.width.%]="f.pct" style="height: 100%; background: var(--ibero-gold); border-radius: 3px;"></div>
+        </div>
+      </div>
+    </div>
+  </app-card>
+</div>

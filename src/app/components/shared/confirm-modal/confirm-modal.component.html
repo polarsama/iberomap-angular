@@ -1,0 +1,17 @@
+<div class="modal-overlay">
+  <div class="modal-content confirm-modal">
+    <div class="confirm-icon">
+      <i class="material-icons">{{ icon }}</i>
+    </div>
+    <h3>{{ title }}</h3>
+    
+    <div class="confirm-message">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="modal-footer no-border" style="margin-top: 24px; padding-top: 16px;">
+      <app-btn variant="flat" (onClick)="onCancel()">{{ cancelText }}</app-btn>
+      <app-btn variant="primary" [customStyle]="{ background: confirmColor, color: '#fff' }" [icon]="icon === 'warning_amber' ? 'delete' : 'check'" (onClick)="onConfirm()">{{ confirmText }}</app-btn>
+    </div>
+  </div>
+</div>
