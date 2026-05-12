@@ -1,0 +1,51 @@
+<div class="navigation-header" style="margin-bottom: 20px;">
+  <button class="back-btn" (click)="goBack()" style="display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; color: var(--ibero-gold-mid); font-weight: 700; padding: 0;">
+    <i class="material-icons">arrow_back</i>
+    Volver a Programas
+  </button>
+</div>
+
+<div class="header-section" *ngIf="program" style="margin-bottom: 30px;">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">Condiciones de {{ program.name }}</h1>
+  <p style="color: var(--ibero-gray-mid); font-size: 13px;">Listado oficial de las 51 características del proceso de autoevaluación MAP</p>
+</div>
+
+<app-card>
+  <app-section-title icon="assignment_turned_in">Avance de Características</app-section-title>
+  
+  <div class="table-responsive" style="margin-top: 20px;">
+    <table class="conditions-table">
+      <thead>
+        <tr>
+          <th style="width: 60px;">ID</th>
+          <th>Característica</th>
+          <th>Factor</th>
+          <th style="width: 140px;">Estado</th>
+          <th style="width: 100px; text-align: center;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of conditions" [class.bg-alt]="c.id % 2 === 0">
+          <td style="font-weight: 800; color: var(--ibero-black);">{{ c.num }}</td>
+          <td>
+            <div style="font-weight: 600; color: var(--ibero-black); font-size: 13px;">{{ c.name }}</div>
+            <div *ngIf="c.description" style="font-size: 11px; color: var(--ibero-gray-mid); margin-top: 4px;">{{ c.description }}</div>
+          </td>
+          <td><span style="font-size: 11px; color: var(--ibero-gray-mid);">{{ c.factor }}</span></td>
+          <td><app-status-chip [status]="c.status"></app-status-chip></td>
+          <td>
+            <div class="action-buttons" style="justify-content: center;">
+              <button class="action-btn" title="Ver Detalle" *ngIf="c.status === 'completado'"><i class="material-icons">visibility</i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-card>
+
+<style>
+    .conditions-table td {
+        padding: 15px 14px;
+    }
+</style>

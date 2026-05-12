@@ -7,6 +7,7 @@ import { DocenteDashboardComponent } from './views/dashboards/docente/docente-da
 import { AdminDashboardComponent } from './views/dashboards/admin/admin-dashboard.component';
 import { LiderOverviewComponent } from './views/dashboards/lider/tabs/overview/lider-overview.component';
 import { LiderProgramasComponent } from './views/dashboards/lider/tabs/programas/lider-programas.component';
+import { LiderProgramConditionsComponent } from './views/dashboards/lider/tabs/programas/condiciones/lider-program-conditions.component';
 import { LiderReportesComponent } from './views/dashboards/lider/tabs/reportes/lider-reportes.component';
 import { LiderUsuariosComponent } from './views/dashboards/lider/tabs/usuarios/lider-usuarios.component';
 
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'resumen', pathMatch: 'full' },
       { path: 'resumen', component: LiderOverviewComponent },
       { path: 'programas', component: LiderProgramasComponent },
+      { path: 'programas/:id/condiciones', component: LiderProgramConditionsComponent },
       { path: 'reportes', component: LiderReportesComponent },
       { path: 'usuarios', component: LiderUsuariosComponent }
     ]

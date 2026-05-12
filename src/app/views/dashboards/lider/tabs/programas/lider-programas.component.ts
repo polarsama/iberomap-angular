@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LiderDataService } from '../../../../../services/lider-data.service';
-import { StatCardComponent } from '../../../../../components/shared/stat-card/stat-card.component';
 import { CardComponent } from '../../../../../components/shared/card/card.component';
 import { SectionTitleComponent } from '../../../../../components/shared/section-title/section-title.component';
 import { StatusChipComponent } from '../../../../../components/shared/status-chip/status-chip.component';
 import { BtnComponent } from '../../../../../components/shared/btn/btn.component';
 import { ConfirmModalComponent } from '../../../../../components/shared/confirm-modal/confirm-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lider-programas',
   standalone: true,
-  imports: [CommonModule, FormsModule, StatCardComponent, CardComponent, SectionTitleComponent, StatusChipComponent, BtnComponent, ConfirmModalComponent],
+  imports: [CommonModule, FormsModule, CardComponent, SectionTitleComponent, StatusChipComponent, BtnComponent, ConfirmModalComponent],
   templateUrl: './lider-programas.component.html',
   styleUrls: ['../../lider-dashboard.component.css'] // Reuse dashboard styles
 })
@@ -35,7 +35,7 @@ export class LiderProgramasComponent implements OnInit {
   confirmDeleteData: any = null;
   showAssign: any = null;
 
-  constructor(private dataService: LiderDataService) {}
+  constructor(private dataService: LiderDataService, private router: Router) {}
 
   ngOnInit() {
     this.dataService.programs$.subscribe(p => {
@@ -83,6 +83,10 @@ export class LiderProgramasComponent implements OnInit {
   editProgram(p: any) {
     this.newProgram = { ...p };
     this.showModal = true;
+  }
+
+  viewConditions(p: any) {
+    this.router.navigate(['/dashboard/lider/programas', p.id, 'condiciones']);
   }
 
   saveNewProgram() {
