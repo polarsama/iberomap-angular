@@ -1,0 +1,34 @@
+<app-card>
+  <app-section-title icon="list">Programas de la Facultad</app-section-title>
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Programa</th>
+          <th>Tipo Informe</th>
+          <th>Estado</th>
+          <th>Avance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of programs; let i = index" [class.bg-alt]="i % 2 === 1">
+          <td class="col-name">{{ p.name }}</td>
+          <td><span class="type-badge">{{ p.type }}</span></td>
+          <td><app-status-chip [status]="p.status"></app-status-chip></td>
+          <td class="col-progress">
+            <div class="progress-wrapper">
+              <div class="progress-bar-inner">
+                <div class="progress-fill" [style.width.%]="p.pct" style="background: var(--ibero-gold);"></div>
+              </div>
+              <span class="progress-text">{{ p.pct }}%</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-alert">
+    <i class="material-icons">info</i>
+    <span>Vista de solo lectura para seguimiento institucional.</span>
+  </div>
+</app-card>

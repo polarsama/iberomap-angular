@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { SectionTitleComponent } from '../../../components/shared/section-title/
 import { CardComponent } from '../../../components/shared/card/card.component';
 import { StatusChipComponent } from '../../../components/shared/status-chip/status-chip.component';
 import { BtnComponent } from '../../../components/shared/btn/btn.component';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-docente-dashboard',
@@ -138,7 +139,8 @@ export class DocenteDashboardComponent implements OnInit {
   pending = 0;
   done = 0;
 
-  confirmDeleteData: any = null; // Para el modal de confirmación
+  confirmDeleteData: any = null;
+  private notificationService = inject(NotificationService);
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -234,7 +236,7 @@ export class DocenteDashboardComponent implements OnInit {
 
   saveForm() {
     if (!this.formData.condicion || !this.formData.factor || !this.formData.carac || !this.formData.descripcion) {
-      alert('Por favor, complete los campos obligatorios (*).');
+      this.notificationService.show('Por favor, complete los campos obligatorios (*).', 'error');
       return;
     }
 

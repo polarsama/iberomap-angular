@@ -1,0 +1,25 @@
+<div class="reportes-grid">
+  <app-card>
+    <app-section-title icon="description">Reporte Consolidado</app-section-title>
+    <p class="report-desc">Descarga el estado actual de todos los programas de la Facultad de Ingeniería en formato PDF o Excel.</p>
+    
+    <div class="report-actions">
+      <button class="btn-export pdf" (click)="exportToPDF()">
+        <i class="material-icons">picture_as_pdf</i>
+        Exportar PDF
+      </button>
+      <button class="btn-export excel" (click)="exportToExcel()">
+        <i class="material-icons">description</i>
+        Exportar Excel
+      </button>
+    </div>
+  </app-card>
+
+  <app-card>
+    <app-section-title icon="trending_up">Histórico de Avance</app-section-title>
+    <div class="placeholder-chart">
+      <i class="material-icons">show_chart</i>
+      <span>Gráfico histórico próximamente</span>
+    </div>
+  </app-card>
+</div>

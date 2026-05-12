@@ -1,0 +1,34 @@
+<!-- Stats -->
+<div class="stats-row">
+  <app-stat-card [value]="programs.length" label="Programas" sub="Facultad de Ingeniería"></app-stat-card>
+  <app-stat-card [value]="completedChars" label="Características" [sub]="'de ' + totalChars + ' completadas'"></app-stat-card>
+  <app-stat-card [value]="avgPct + '%'" label="Avance promedio" sub="Facultad de Ingeniería"></app-stat-card>
+  <app-stat-card value="2025" label="Año de renovación" sub="Decreto 1330 de 2019"></app-stat-card>
+</div>
+
+<div class="grid-layout">
+  <!-- Bar chart -->
+  <app-card>
+    <app-section-title icon="bar_chart">Avance por Programa</app-section-title>
+    <div class="chart-container">
+      <div *ngFor="let p of programs" class="chart-bar-wrapper">
+        <div class="chart-pct">{{ p.pct }}%</div>
+        <div class="chart-bar" [style.height]="getBarHeight(p.pct)" style="background: linear-gradient(180deg, var(--ibero-gold), var(--ibero-gold-mid));"></div>
+        <div class="chart-label">{{ getShortName(p.name) }}</div>
+      </div>
+    </div>
+    <div class="chart-axis"></div>
+  </app-card>
+
+  <!-- Summary -->
+  <app-card>
+    <app-section-title icon="info">Resumen de Avance</app-section-title>
+    <div class="progress-list">
+      <app-progress-row *ngFor="let p of programs" [label]="p.name" [pct]="p.pct"></app-progress-row>
+    </div>
+    <div class="info-footer">
+      <i class="material-icons">info</i>
+      <span>Avance consolidado de la facultad</span>
+    </div>
+  </app-card>
+</div>

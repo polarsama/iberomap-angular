@@ -26,7 +26,16 @@ export const routes: Routes = [
       { path: 'usuarios', component: LiderUsuariosComponent }
     ]
   },
-  { path: 'dashboard/decano', component: DecanoDashboardComponent },
+  { 
+    path: 'dashboard/decano', 
+    component: DecanoDashboardComponent,
+    children: [
+      { path: '', redirectTo: 'resumen', pathMatch: 'full' },
+      { path: 'resumen', loadComponent: () => import('./views/dashboards/decano/tabs/resumen/decano-overview.component').then(m => m.DecanoOverviewComponent) },
+      { path: 'programas', loadComponent: () => import('./views/dashboards/decano/tabs/programas/decano-programas.component').then(m => m.DecanoProgramasComponent) },
+      { path: 'reportes', loadComponent: () => import('./views/dashboards/decano/tabs/reportes/decano-reportes.component').then(m => m.DecanoReportesComponent) }
+    ]
+  },
   { path: 'dashboard/docente', component: DocenteDashboardComponent },
   { path: 'dashboard/admin', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' }
