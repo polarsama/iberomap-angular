@@ -116,6 +116,8 @@ export class DocenteDashboardComponent implements OnInit {
 
   navItems = [
     { id: 'mis-chars', label: 'Mis Programas', icon: 'folder' },
+    { id: 'docente-v2', label: 'Docente V2', icon: 'assignment' },
+    { id: 'registro-calificado', label: 'Registro Calificado', icon: 'architecture' },
   ];
 
   DOCENTE_PROGRAMS = [
@@ -161,6 +163,11 @@ export class DocenteDashboardComponent implements OnInit {
 
   setTab(tabId: string) {
     this.activeTab = tabId;
+    if (tabId === 'docente-v2') {
+      this.router.navigate(['/dashboard/docente-v2']);
+    } else if (tabId === 'registro-calificado') {
+      this.router.navigate(['/dashboard/registro-calificado']);
+    }
   }
 
   getUserFirstName(): string {

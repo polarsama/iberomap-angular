@@ -10,6 +10,8 @@ import { LiderProgramasComponent } from './views/dashboards/lider/tabs/programas
 import { LiderProgramConditionsComponent } from './views/dashboards/lider/tabs/programas/condiciones/lider-program-conditions.component';
 import { LiderReportesComponent } from './views/dashboards/lider/tabs/reportes/lider-reportes.component';
 import { LiderUsuariosComponent } from './views/dashboards/lider/tabs/usuarios/lider-usuarios.component';
+import { DocenteV2Component } from './views/dashboards/docente-v2/docente-v2.component';
+import { ConditionManagerComponent } from './features/registro-calificado/pages/condition-manager/condition-manager.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -37,6 +39,8 @@ export const routes: Routes = [
     ]
   },
   { path: 'dashboard/docente', component: DocenteDashboardComponent },
+  { path: 'dashboard/docente-v2', component: DocenteV2Component },
+  { path: 'dashboard/registro-calificado', component: ConditionManagerComponent },
   { path: 'dashboard/admin', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' }
 ];

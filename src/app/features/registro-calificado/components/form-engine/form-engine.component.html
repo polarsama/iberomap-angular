@@ -1,0 +1,96 @@
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="dynamic-form-container" *ngIf="form">
+  
+  <div *ngFor="let field of fields" class="form-section">
+    
+    <div [ngSwitch]="field.tipoControl" class="field-wrapper">
+      
+      <!-- Control de Texto / Email / Password -->
+      <div *ngSwitchCase="'text'" class="field-group">
+        <label [for]="field.key">{{ field.label }} <span *ngIf="field.requerido" class="req">*</span></label>
+        <input type="text" [id]="field.key" [formControlName]="field.key" class="input-control">
+      </div>
+
+      <!-- Control de Área de Texto -->
+      <div *ngSwitchCase="'textarea'" class="field-group">
+        <label [for]="field.key">{{ field.label }}</label>
+        <textarea [id]="field.key" [formControlName]="field.key" class="input-control textarea"></textarea>
+      </div>
+
+      <!-- Control Numérico -->
+      <div *ngSwitchCase="'number'" class="field-group">
+        <label [for]="field.key">{{ field.label }}</label>
+        <input type="number" [id]="field.key" [formControlName]="field.key" class="input-control">
+      </div>
+
+      <!-- Control Selector (Select) -->
+      <div *ngSwitchCase="'select'" class="field-group">
+        <label [for]="field.key">{{ field.label }}</label>
+        <select [id]="field.key" [formControlName]="field.key" class="input-control select">
+          <option value="">Seleccione una opción...</option>
+          <option *ngFor="let opt of catalogs[field.key] || []" [value]="opt.value">
+            {{ opt.label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Control de Archivo (File) -->
+      <div *ngSwitchCase="'file'" class="field-group">
+        <label [for]="field.key">{{ field.label }}</label>
+        <div class="file-drop-zone">
+          <input type="file" [id]="field.key" (change)="onFileChange($event, field.key)" hidden #fileInput>
+          <div class="drop-content" (click)="fileInput.click()">
+            <span class="material-icons">cloud_upload</span>
+            <p>{{ form.get(field.key)?.value?.name || 'Seleccione o arrastre un PDF' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control de Tabla Dinámica (Matrix) -->
+      <div *ngSwitchCase="'table'" class="field-group full-width">
+        <div class="table-header">
+          <label>{{ field.label }}</label>
+          <button type="button" class="btn-add" (click)="addRow(field.key, field.config?.columns)">
+            <span class="material-icons">add_circle</span> Agregar Fila
+          </button>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="dynamic-table">
+            <thead>
+              <tr>
+                <th *ngFor="let col of field.config?.columns">{{ col | titlecase }}</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody [formArrayName]="field.key">
+              <tr *ngFor="let row of getFormArray(field.key).controls; let i=index" [formGroupName]="i">
+                <td *ngFor="let col of field.config?.columns">
+                  <input type="text" [formControlName]="col" class="table-input">
+                </td>
+                <td class="actions-td">
+                  <button type="button" class="btn-delete" (click)="removeRow(field.key, i)">
+                    <span class="material-icons">delete</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Botón de Guardado Unificado -->
+  <div class="form-footer">
+    <button type="submit" class="btn-submit" [disabled]="form.invalid">
+      <span class="material-icons">save</span>
+      Guardar Condición
+    </button>
+    <div class="status-indicator" [class.valid]="form.valid">
+      {{ form.valid ? 'Formulario listo para enviar' : 'Faltan campos por completar' }}
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,286 @@
+<!-- Docente V2 View - Standardized SIAC Interface -->
+<app-nav-bar 
+  [userName]="user?.name || ''" 
+  userRole="Docente" 
+  [activeItem]="activeTab" 
+  [navItems]="navItems" 
+  (logout)="onLogout()"
+  (navClick)="setTab($event)">
+</app-nav-bar>
+
+<div class="docente-v2-container">
+  <!-- Header -->
+  <header class="v2-header">
+    <div class="header-content">
+      <h1>Renovación de Registro Calificado</h1>
+      <p>Programa: Ingeniería Industrial (Código SNIES 107162)</p>
+    </div>
+    <div class="stepper-indicator">
+      <div 
+        *ngFor="let s of [1,2,3,4,5]" 
+        class="step-dot" 
+        [class.active]="currentStep === s"
+        [class.completed]="currentStep > s"
+        (click)="setStep(s)"
+      >
+        <span>{{ s }}</span>
+        <div class="step-label" *ngIf="currentStep === s">
+          {{ ['Presentación', 'Datos Generales', 'Coherencia', 'Currículo', 'Anexos'][s-1] }}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form Content -->
+  <form [formGroup]="docenteForm" (ngSubmit)="onSubmit()" class="v2-form-body">
+    
+    <!-- Step 1: Panel de Control e Indicadores -->
+    <section *ngIf="currentStep === 1" class="step-content animate-fade">
+      <div class="section-title">
+        <span class="material-icons">dashboard</span>
+        <h2>Panel de Control - Acciones de Autoevaluación</h2>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="card-icon"><span class="material-icons">school</span></div>
+          <h3>Aulas Espejo</h3>
+          <p>Fortalecimiento de la internacionalización del currículo mediante estrategias de colaboración virtual docente-estudiante.</p>
+          <span class="status-pill">Ejecutado</span>
+        </div>
+        <div class="info-card">
+          <div class="card-icon"><span class="material-icons">psychology</span></div>
+          <h3>Resultados de Aprendizaje</h3>
+          <p>Definición y actualización de los RAP institucionales alineados a la normativa vigente del Decreto 1330.</p>
+          <span class="status-pill">Ejecutado</span>
+        </div>
+        <div class="info-card">
+          <div class="card-icon"><span class="material-icons">biotech</span></div>
+          <h3>Investigación Formativa</h3>
+          <p>Consolidación de semilleros y proyectos de aula enfocados en la resolución de problemas industriales.</p>
+          <span class="status-pill">Ejecutado</span>
+        </div>
+        <div class="info-card">
+          <div class="card-icon"><span class="material-icons">work</span></div>
+          <h3>Sistema de Prácticas</h3>
+          <p>Vinculación con el sector real para la validación de competencias profesionales en entornos laborales.</p>
+          <span class="status-pill">Ejecutado</span>
+        </div>
+        <div class="info-card">
+          <div class="card-icon"><span class="material-icons">groups_3</span></div>
+          <h3>Modelo 360</h3>
+          <p>Evaluación integral de competencias con participación de pares, empleadores y egresados.</p>
+          <span class="status-pill">Ejecutado</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Formulario de Datos Generales -->
+    <section *ngIf="currentStep === 2" class="step-content animate-fade" formGroupName="generalData">
+      <div class="section-title">
+        <span class="material-icons">info</span>
+        <h2>Información General del Programa</h2>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label>Código SNIES Institución</label>
+          <input type="text" formControlName="sniesInstitucion">
+        </div>
+        <div class="form-field">
+          <label>Nombre de la Institución</label>
+          <input type="text" formControlName="nombreInstitucion">
+        </div>
+        <div class="form-field">
+          <label>Nombre del Programa</label>
+          <input type="text" formControlName="nombrePrograma">
+        </div>
+        <div class="form-field">
+          <label>Norma Interna de Creación</label>
+          <input type="text" formControlName="normaInternaCreacion">
+        </div>
+        <div class="form-field">
+          <label>Título a Otorgar</label>
+          <input type="text" formControlName="tituloOtorgar">
+        </div>
+        <div class="form-field">
+          <label>Facultad</label>
+          <input type="text" formControlName="facultad">
+        </div>
+        <div class="form-field">
+          <label>Campo Amplio</label>
+          <input type="text" formControlName="campoAmplio">
+        </div>
+        <div class="form-field">
+          <label>Campo Específico</label>
+          <input type="text" formControlName="campoEspecifico">
+        </div>
+        <div class="form-field">
+          <label>Campo Detallado</label>
+          <input type="text" formControlName="campoDetallado">
+        </div>
+        <div class="form-field">
+          <label>Nivel Académico</label>
+          <input type="text" formControlName="nivelAcademico">
+        </div>
+        <div class="form-field">
+          <label>Cupo de Estudiantes</label>
+          <input type="text" formControlName="cupoEstudiantes">
+        </div>
+        <div class="form-field">
+          <label>Modalidad</label>
+          <input type="text" formControlName="modalidad">
+        </div>
+        <div class="form-field">
+          <label>Créditos Académicos</label>
+          <input type="number" formControlName="numeroCreditos">
+        </div>
+        <div class="form-field">
+          <label>E-mail de Contacto (SIAC)</label>
+          <input type="email" formControlName="email">
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: Coherencia y Aspectos Formativos -->
+    <section *ngIf="currentStep === 3" class="step-content animate-fade" formGroupName="coherencia">
+      <div class="section-title">
+        <span class="material-icons">sync</span>
+        <h2>Coherencia Académica y Formativa</h2>
+      </div>
+      
+      <div class="form-stack">
+        <div class="form-field full-width">
+          <label>Definición ACOFI</label>
+          <textarea formControlName="definicionACOFI" placeholder="Ingrese la definición según ACOFI..."></textarea>
+        </div>
+        <div class="form-field full-width">
+          <label>Definición II&SE</label>
+          <textarea formControlName="definicionIISE" placeholder="Ingrese la definición según II&SE..."></textarea>
+        </div>
+        
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Factor</label>
+            <select formControlName="factor">
+              <option value="">Seleccione un factor...</option>
+              <option *ngFor="let f of factores" [value]="f.id">{{ f.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Característica</label>
+            <select formControlName="caracteristica">
+              <option value="">Seleccione una característica...</option>
+              <option *ngFor="let c of caracteristicas" [value]="c.id">{{ c.nombre }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="dynamic-table-container">
+        <h3>Matriz de Resultados de Aprendizaje</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Campo de Conocimiento</th>
+              <th>Resultados de Aprendizaje</th>
+              <th>Competencias Generales</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="competencias">
+            <tr *ngFor="let comp of competencias.controls; let i=index" [formGroupName]="i">
+              <td>
+                <input type="text" formControlName="campoConocimiento" readonly>
+              </td>
+              <td>
+                <textarea formControlName="resultadosAprendizaje" placeholder="Escriba los resultados..."></textarea>
+              </td>
+              <td>
+                <textarea formControlName="competenciasGenerales" placeholder="Escriba las competencias..."></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Step 4: Organización Curricular -->
+    <section *ngIf="currentStep === 4" class="step-content animate-fade" formGroupName="organizacion">
+      <div class="section-title">
+        <span class="material-icons">account_tree</span>
+        <h2>Organización Curricular y Perfil</h2>
+      </div>
+      
+      <div class="form-field full-width">
+        <label>Perfil Profesional del Ingeniero Industrial</label>
+        <textarea class="rich-text" formControlName="perfilProfesional" placeholder="Describa el perfil del egresado..."></textarea>
+      </div>
+
+      <div class="nucleos-container">
+        <h3>Distribución del Plan de Estudios (160 Créditos)</h3>
+        <div class="nucleos-grid" formArrayName="nucleosCurriculares">
+          <div class="nucleo-card" *ngFor="let n of nucleos.controls; let i=index" [formGroupName]="i">
+            <h4>{{ n.get('nombre')?.value }}</h4>
+            <div class="nucleo-inputs">
+              <div class="mini-field">
+                <label>Módulos</label>
+                <input type="number" formControlName="modulos">
+              </div>
+              <div class="mini-field">
+                <label>Créditos</label>
+                <input type="number" formControlName="creditos">
+              </div>
+            </div>
+            <div class="nucleo-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="n.get('porcentaje')?.value"></div>
+              </div>
+              <span class="percentage-label">{{ n.get('porcentaje')?.value }}% del plan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5: Repositorio de Anexos -->
+    <section *ngIf="currentStep === 5" class="step-content animate-fade">
+      <div class="section-title">
+        <span class="material-icons">cloud_upload</span>
+        <h2>Repositorio Documental (Soportes)</h2>
+      </div>
+      
+      <div class="anexos-list" formArrayName="anexos">
+        <div class="anexo-item" *ngFor="let a of anexos.controls; let i=index" [formGroupName]="i">
+          <div class="anexo-info">
+            <span class="material-icons file-icon">description</span>
+            <div class="anexo-text">
+              <p class="anexo-name">{{ a.get('nombre')?.value }}</p>
+              <p class="anexo-meta">PDF Máx 10MB</p>
+            </div>
+          </div>
+          <div class="upload-zone">
+            <input type="file" [id]="'file-' + i" (change)="onFileChange($event, i)" accept="application/pdf" hidden>
+            <label [for]="'file-' + i" class="upload-btn" [class.success]="a.get('status')?.value === 'Cargado'">
+              <span class="material-icons">{{ a.get('status')?.value === 'Cargado' ? 'check_circle' : 'upload_file' }}</span>
+              {{ a.get('status')?.value === 'Cargado' ? 'Archivo Cargado' : 'Subir PDF' }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Navigation -->
+    <footer class="v2-footer">
+      <button type="button" class="btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">
+        Anterior
+      </button>
+      
+      <button type="button" class="btn-primary" (click)="nextStep()" *ngIf="currentStep < totalSteps">
+        Siguiente
+      </button>
+      
+      <button type="submit" class="btn-submit" *ngIf="currentStep === totalSteps" [disabled]="!docenteForm.valid">
+        Guardar y Enviar al SIAC
+      </button>
+    </footer>
+
+  </form>
+</div>

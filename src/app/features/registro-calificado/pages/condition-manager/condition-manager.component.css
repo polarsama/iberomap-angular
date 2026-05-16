@@ -1,0 +1,178 @@
+
+.manager-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #D0AB4B;
+}
+
+.header-titles h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #222222;
+  margin-bottom: 5px;
+}
+
+.header-titles p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.badge.institutional {
+  background-color: #222222;
+  color: #D0AB4B;
+}
+
+.badge.academic {
+  background-color: #d0ab4b;
+  color: #222222;
+}
+
+/* Context Selector */
+.context-selector {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
+}
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.select-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select-box label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.select-box select {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  font-size: 14px;
+  color: #222222;
+  cursor: pointer;
+}
+
+.select-box select:focus {
+  outline: none;
+  border-color: #D0AB4B;
+}
+
+.select-box select:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  color: #94a3b8;
+}
+
+/* Form Viewport */
+.form-viewport {
+  background: #f8fafc;
+  border-radius: 20px;
+  min-height: 500px;
+  padding: 30px;
+  border: 1px solid #e2e8f0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.empty-state .material-icons {
+  font-size: 80px;
+  margin-bottom: 20px;
+  color: #cbd5e1;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+/* Active Form Area */
+.form-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.condition-info h2 {
+  font-size: 20px;
+  color: #222222;
+  font-weight: 700;
+}
+
+.version-tag {
+  font-size: 12px;
+  background: #e2e8f0;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.btn-annex-core {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 2px solid #d0ab4b;
+  color: #222222;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-annex-core:hover {
+  background: #d0ab4b;
+}
+
+.animate-fade {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
