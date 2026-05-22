@@ -1,21 +1,36 @@
-
-:host {
-  display: block;
-  min-height: 100vh;
-  background-color: #F8FAFC;
-  font-family: 'Montserrat', sans-serif;
+/* Navigation Header */
+.navigation-header {
+  margin-bottom: var(--space-md);
 }
 
+.back-btn {
+  background: transparent;
+  border: none;
+  color: var(--ibero-gold-mid);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .2s;
+}
+
+.back-btn:hover {
+  color: var(--ibero-gold);
+}
+
+/* Stepper scoped styles */
 .docente-v2-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 0;
 }
 
 /* Header & Stepper */
 .v2-header {
-  background: #D0AB4B; /* Cambiado de azul a oro */
-  color: #222222; /* Texto oscuro sobre fondo oro */
+  background: #D0AB4B; /* Oro */
+  color: #222222; /* Texto oscuro */
   padding: 40px;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -103,7 +118,7 @@
   flex: 1;
 }
 
-.section-title {
+.section-title-v2 {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -113,14 +128,15 @@
   padding-bottom: 15px;
 }
 
-.section-title .material-icons {
+.section-title-v2 .material-icons {
   font-size: 32px;
   color: #D0AB4B;
 }
 
-.section-title h2 {
+.section-title-v2 h2 {
   font-size: 20px;
   font-weight: 700;
+  margin: 0;
 }
 
 /* Info Cards (Step 1) */
@@ -211,6 +227,15 @@
   font-size: 14px;
   background: #F8FAFC;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.form-field select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .form-field input:focus, 
@@ -220,6 +245,12 @@
   border-color: #D0AB4B;
   background: white;
   box-shadow: 0 0 0 4px rgba(208, 171, 75, 0.1);
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 textarea {
@@ -263,7 +294,8 @@ td {
   border-bottom: 1px solid #E2E8F0;
 }
 
-td input, td textarea {
+td input, 
+td textarea {
   width: 100%;
   border: none;
   background: transparent;

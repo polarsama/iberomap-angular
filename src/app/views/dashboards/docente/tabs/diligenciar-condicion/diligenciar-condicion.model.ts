@@ -1,4 +1,3 @@
-
 export interface GeneralData {
   sniesInstitucion: string;
   nombreInstitucion: string;
@@ -43,7 +42,7 @@ export interface Annex {
   cargado: boolean;
 }
 
-export interface DocenteV2Data {
+export interface DiligenciarCondicionData {
   generalData: GeneralData;
   definicionACOFI: string;
   definicionIISE: string;

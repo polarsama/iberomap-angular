@@ -1,0 +1,138 @@
+<div class="main-content container" *ngIf="currentView === 'programs'">
+  <div class="header-section">
+    <div class="header-text">
+      <h1>Bienvenido, {{ getUserFirstName() }}</h1>
+      <div class="role-subtitle">
+        <app-role-chip role="docente"></app-role-chip>
+        <span class="program-name">Estás asignado a {{ DOCENTE_PROGRAMS.length }} programas</span>
+      </div>
+    </div>
+  </div>
+  <h2 class="view-title">¿En cuál programa deseas trabajar hoy?</h2>
+  
+  <div class="programs-grid">
+    <div *ngFor="let p of DOCENTE_PROGRAMS" class="program-card" (click)="goToConditions(p)">
+      <div class="program-card-header">
+        <div class="program-icon-box">
+          <i class="material-icons">folder</i>
+        </div>
+        <div class="program-info">
+          <div class="program-title">{{ p.name }}</div>
+          <div class="program-faculty">Facultad de {{ p.faculty }}</div>
+        </div>
+      </div>
+      <div class="program-card-footer">
+        <span class="pending-badge">
+          <i class="material-icons">warning</i>
+          {{ p.pending }} pendientes
+        </span>
+        <span class="collab-badge">
+          <i class="material-icons">group</i>
+          {{ p.collaborators }} docentes
+        </span>
+        <app-btn [sm]="true" icon="arrow_forward" (onClick)="goToConditions(p)">Trabajar</app-btn>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content container" *ngIf="currentView === 'conditions'">
+  <div class="navigation-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="material-icons">arrow_back</i>
+      Cambiar programa
+    </button>
+  </div>
+  
+  <!-- Header -->
+  <div class="header-section">
+    <div class="header-text">
+      <h1>Bienvenido, {{ getUserFirstName() }}</h1>
+      <div class="role-subtitle">
+        <app-role-chip role="docente"></app-role-chip>
+        <span class="program-name">Programa: {{ selectedProgram.name }}</span>
+        <div class="collaborators-tag" *ngIf="selectedProgram.collaborators">
+          <i class="material-icons">group</i>
+          <span>{{ selectedProgram.collaborators }} Colaboradores</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <app-stat-card [value]="MY_CHARS.length" label="Condiciones" sub="Asignadas por el Director"></app-stat-card>
+    <app-stat-card [value]="done" label="Completadas" sub="Evidencias enviadas" color="#43a047"></app-stat-card>
+    <app-stat-card [value]="pending" label="Pendientes" sub="Requieren tu atención" color="#fb8c00"></app-stat-card>
+  </div>
+
+  <!-- Pending alert -->
+  <div class="alert-box" *ngIf="pending > 0">
+    <i class="material-icons alert-icon">warning</i>
+    <span class="alert-text">Tienes <strong>{{ pending }} condición{{ pending > 1 ? 'es' : '' }}</strong> pendiente{{ pending > 1 ? 's' : '' }} de diligenciar. La fecha límite para varias es el 20 de junio.</span>
+  </div>
+
+  <!-- Characteristic list -->
+  <app-card [customStyle]="{ padding: 0, overflow: 'hidden' }">
+    <div class="card-header flex-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px var(--space-md);">
+      <app-section-title icon="assignment">Mis Condiciones Asignadas</app-section-title>
+      <app-btn icon="add" [sm]="true" (onClick)="addNewCondition()">Agregar Condición</app-btn>
+    </div>
+    
+    <div *ngIf="MY_CHARS.length === 0" class="empty-state">
+      No tienes condiciones asignadas en este programa.
+    </div>
+    
+    <div *ngFor="let c of MY_CHARS; let i = index" class="char-row" [class.bg-alt]="i % 2 === 1" [class.no-border]="i === MY_CHARS.length - 1">
+      <div class="char-circle">{{ c.num }}</div>
+      <div class="char-info">
+        <div class="char-name">{{ c.name }}</div>
+        <div class="char-sub">
+          {{ c.factor }} · Fecha límite: {{ c.dueDate }}
+          <span class="shared-indicator" *ngIf="c.shared > 1">
+            · <i class="material-icons">people</i> {{ c.shared }} colaborando
+          </span>
+        </div>
+      </div>
+      <app-status-chip [status]="c.status"></app-status-chip>
+      <div class="char-actions">
+        <button class="delete-btn" title="Eliminar" (click)="deleteChar(c)">
+          <i class="material-icons">delete_outline</i>
+        </button>
+        <app-btn 
+          [sm]="true" 
+          [variant]="c.status === 'completado' ? 'light' : 'primary'" 
+          [icon]="c.status === 'completado' ? 'visibility' : 'edit'"
+          (onClick)="goToDiligenciarCondicion(c)">
+          {{ c.status === 'completado' ? 'Ver' : 'Diligenciar' }}
+        </app-btn>
+      </div>
+    </div>
+  </app-card>
+
+  <!-- Help note -->
+  <div class="help-note">
+    <i class="material-icons">info</i>
+    <span>Las condiciones que crees serán visibles y editables por todos los docentes asignados a este programa.</span>
+  </div>
+</div>
+
+<!-- Modal Confirm Delete (Custom Pop-up) -->
+<div class="modal-overlay" *ngIf="confirmDeleteData">
+  <div class="modal-content confirm-modal">
+    <div class="confirm-icon">
+      <i class="material-icons">warning_amber</i>
+    </div>
+    <h3>¿Confirmar eliminación?</h3>
+    
+    <p *ngIf="confirmDeleteData.type === 'char'">
+      ¿Estás seguro de que deseas eliminar la condición <strong>{{ confirmDeleteData.char.name }}</strong>? 
+      Esta acción eliminará toda la información y evidencias cargadas.
+    </p>
+
+    <div class="modal-footer no-border" style="margin-top: 24px; padding-top: 16px;">
+      <app-btn variant="flat" (onClick)="confirmDeleteData = null">Cancelar</app-btn>
+      <app-btn variant="primary" color="#E53935" icon="delete" (onClick)="executeDelete()">Confirmar Eliminación</app-btn>
+    </div>
+  </div>
+</div>

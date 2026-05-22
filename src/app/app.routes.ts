@@ -10,7 +10,9 @@ import { LiderProgramasComponent } from './views/dashboards/lider/tabs/programas
 import { LiderProgramConditionsComponent } from './views/dashboards/lider/tabs/programas/condiciones/lider-program-conditions.component';
 import { LiderReportesComponent } from './views/dashboards/lider/tabs/reportes/lider-reportes.component';
 import { LiderUsuariosComponent } from './views/dashboards/lider/tabs/usuarios/lider-usuarios.component';
-import { DocenteV2Component } from './views/dashboards/docente-v2/docente-v2.component';
+import { DocenteProgramasComponent } from './views/dashboards/docente/tabs/programas/docente-programas.component';
+import { DiligenciarCondicionComponent } from './views/dashboards/docente/tabs/diligenciar-condicion/diligenciar-condicion.component';
+import { DocenteRegistroCalificadoComponent } from './views/dashboards/docente/tabs/registro-calificado/docente-registro-calificado.component';
 import { ConditionManagerComponent } from './features/registro-calificado/pages/condition-manager/condition-manager.component';
 
 export const routes: Routes = [
@@ -38,9 +40,19 @@ export const routes: Routes = [
       { path: 'reportes', loadComponent: () => import('./views/dashboards/decano/tabs/reportes/decano-reportes.component').then(m => m.DecanoReportesComponent) }
     ]
   },
-  { path: 'dashboard/docente', component: DocenteDashboardComponent },
-  { path: 'dashboard/docente-v2', component: DocenteV2Component },
-  { path: 'dashboard/registro-calificado', component: ConditionManagerComponent },
+  { 
+    path: 'dashboard/docente', 
+    component: DocenteDashboardComponent,
+    children: [
+      { path: '', redirectTo: 'programas', pathMatch: 'full' },
+      { path: 'programas', component: DocenteProgramasComponent },
+      { path: 'registro-calificado', component: DocenteRegistroCalificadoComponent },
+      { path: 'diligenciar-condicion', component: DiligenciarCondicionComponent }
+    ]
+  },
+  { path: 'dashboard/docente-v2', redirectTo: 'dashboard/docente/programas', pathMatch: 'full' },
+  { path: 'dashboard/registro-calificado', redirectTo: 'dashboard/docente/registro-calificado', pathMatch: 'full' },
   { path: 'dashboard/admin', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' }
 ];
+

@@ -1,0 +1,69 @@
+<div class="manager-container">
+  
+  <header class="manager-header">
+    <div class="header-titles">
+      <h1>Gestión Integral de Registros Calificados</h1>
+      <p>Sistema SIAC - Gestión Dinámica Basada en Condiciones</p>
+    </div>
+    <div class="header-badges">
+      <span class="badge institutional">Nivel Docente</span>
+      <span class="badge academic">SIAC 2024</span>
+    </div>
+  </header>
+
+  <!-- Panel de Selección de Contexto (Sin Facultad, directamente programas asignados) -->
+  <section class="context-selector">
+    <div class="selector-grid">
+      
+      <div class="select-box">
+        <label>Programa Académico Asignado</label>
+        <select [(ngModel)]="selectedProgramId" (change)="onProgramChange()">
+          <option value="">Seleccione Programa...</option>
+          <option *ngFor="let p of programs" [value]="p.id">{{ p.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="select-box">
+        <label>Condición de Calidad</label>
+        <select [(ngModel)]="selectedConditionId" (change)="loadCondition()" [disabled]="!selectedProgramId">
+          <option value="">Seleccione Condición...</option>
+          <option *ngFor="let c of filteredConditions" [value]="c.id">
+            Condición {{ c.numero }}: {{ c.nombre }}
+          </option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Motor Dinámico -->
+  <main class="form-viewport">
+    <div *ngIf="!selectedConditionId" class="empty-state">
+      <span class="material-icons">architecture</span>
+      <h3>Seleccione una condición para comenzar</h3>
+      <p>El sistema cargará automáticamente los campos y catálogos requeridos según la normativa de autoevaluación.</p>
+    </div>
+
+    <div *ngIf="selectedConditionId && currentFields.length > 0" class="active-form-area animate-fade">
+      <div class="form-header-info">
+        <div class="condition-info">
+          <h2>{{ getSelectedConditionName() }}</h2>
+          <span class="version-tag">Versión {{ getSelectedConditionVersion() }}</span>
+        </div>
+        <div class="annex-core-link">
+          <button class="btn-annex-core">
+            <span class="material-icons">folder_shared</span>
+            Soportes Transversales (Core)
+          </button>
+        </div>
+      </div>
+
+      <app-dynamic-form-engine 
+        [fields]="currentFields" 
+        [catalogs]="catalogs"
+        (formSubmit)="handleFormSave($event)">
+      </app-dynamic-form-engine>
+    </div>
+  </main>
+
+</div>

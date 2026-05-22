@@ -1,19 +1,18 @@
-<!-- Docente V2 View - Standardized SIAC Interface -->
-<app-nav-bar 
-  [userName]="user?.name || ''" 
-  userRole="Docente" 
-  [activeItem]="activeTab" 
-  [navItems]="navItems" 
-  (logout)="onLogout()"
-  (navClick)="setTab($event)">
-</app-nav-bar>
+<div class="navigation-header">
+  <button class="back-btn" (click)="goBack()">
+    <i class="material-icons">arrow_back</i>
+    Volver a Condiciones
+  </button>
+</div>
 
+<!-- Docente V2 View - Standardized SIAC Interface -->
 <div class="docente-v2-container">
   <!-- Header -->
   <header class="v2-header">
     <div class="header-content">
       <h1>Renovación de Registro Calificado</h1>
-      <p>Programa: Ingeniería Industrial (Código SNIES 107162)</p>
+      <p class="condicion-title">Condición: {{ selectedCharName }}</p>
+      <p class="programa-title">Programa: {{ selectedProgramName }} (Código SNIES 107162)</p>
     </div>
     <div class="stepper-indicator">
       <div 
@@ -32,11 +31,11 @@
   </header>
 
   <!-- Form Content -->
-  <form [formGroup]="docenteForm" (ngSubmit)="onSubmit()" class="v2-form-body">
+  <form [formGroup]="docenteForm" (ngSubmit)="saveV2Form()" class="v2-form-body">
     
     <!-- Step 1: Panel de Control e Indicadores -->
     <section *ngIf="currentStep === 1" class="step-content animate-fade">
-      <div class="section-title">
+      <div class="section-title-v2">
         <span class="material-icons">dashboard</span>
         <h2>Panel de Control - Acciones de Autoevaluación</h2>
       </div>
@@ -76,7 +75,7 @@
 
     <!-- Step 2: Formulario de Datos Generales -->
     <section *ngIf="currentStep === 2" class="step-content animate-fade" formGroupName="generalData">
-      <div class="section-title">
+      <div class="section-title-v2">
         <span class="material-icons">info</span>
         <h2>Información General del Programa</h2>
       </div>
@@ -142,7 +141,7 @@
 
     <!-- Step 3: Coherencia y Aspectos Formativos -->
     <section *ngIf="currentStep === 3" class="step-content animate-fade" formGroupName="coherencia">
-      <div class="section-title">
+      <div class="section-title-v2">
         <span class="material-icons">sync</span>
         <h2>Coherencia Académica y Formativa</h2>
       </div>
@@ -162,14 +161,14 @@
             <label>Factor</label>
             <select formControlName="factor">
               <option value="">Seleccione un factor...</option>
-              <option *ngFor="let f of factores" [value]="f.id">{{ f.nombre }}</option>
+              <option *ngFor="let f of factoresList" [value]="f.id">{{ f.nombre }}</option>
             </select>
           </div>
           <div class="form-field">
             <label>Característica</label>
             <select formControlName="caracteristica">
               <option value="">Seleccione una característica...</option>
-              <option *ngFor="let c of caracteristicas" [value]="c.id">{{ c.nombre }}</option>
+              <option *ngFor="let c of caracteristicasList" [value]="c.id">{{ c.nombre }}</option>
             </select>
           </div>
         </div>
@@ -204,13 +203,13 @@
 
     <!-- Step 4: Organización Curricular -->
     <section *ngIf="currentStep === 4" class="step-content animate-fade" formGroupName="organizacion">
-      <div class="section-title">
+      <div class="section-title-v2">
         <span class="material-icons">account_tree</span>
         <h2>Organización Curricular y Perfil</h2>
       </div>
       
       <div class="form-field full-width">
-        <label>Perfil Profesional del Ingeniero Industrial</label>
+        <label>Perfil Profesional del Egresado</label>
         <textarea class="rich-text" formControlName="perfilProfesional" placeholder="Describa el perfil del egresado..."></textarea>
       </div>
 
@@ -242,7 +241,7 @@
 
     <!-- Step 5: Repositorio de Anexos -->
     <section *ngIf="currentStep === 5" class="step-content animate-fade">
-      <div class="section-title">
+      <div class="section-title-v2">
         <span class="material-icons">cloud_upload</span>
         <h2>Repositorio Documental (Soportes)</h2>
       </div>

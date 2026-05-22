@@ -20,7 +20,6 @@ export class ConditionManagerComponent implements OnInit {
 
   navItems = [
     { id: 'mis-chars', label: 'Mis Programas', icon: 'folder' },
-    { id: 'docente-v2', label: 'Docente V2', icon: 'assignment' },
     { id: 'registro-calificado', label: 'Registro Calificado', icon: 'architecture' },
   ];
 
@@ -39,8 +38,6 @@ export class ConditionManagerComponent implements OnInit {
     this.activeTab = tabId;
     if (tabId === 'mis-chars') {
       this.router.navigate(['/dashboard/docente']);
-    } else if (tabId === 'docente-v2') {
-      this.router.navigate(['/dashboard/docente-v2']);
     }
   }
 
